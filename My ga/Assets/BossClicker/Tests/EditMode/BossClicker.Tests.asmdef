@@ -1,0 +1,13 @@
+{
+  "name": "BossClicker.Tests",
+  "rootNamespace": "BossClicker.Tests",
+  "references": [
+    "BossClicker.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

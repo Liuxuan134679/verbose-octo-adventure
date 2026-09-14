@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Failed(Child)" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.0435064">
+  <test-suite type="TestSuite" id="1029" name="Boss Forge Prototype" fullname="Boss Forge Prototype" runstate="Runnable" testcasecount="17" result="Failed" site="Child" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.043506" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1051" name="BossClicker.Tests.dll" fullname="C:/Users/root/Desktop/My ga/Library/ScriptAssemblies/BossClicker.Tests.dll" runstate="Runnable" testcasecount="17" result="Failed" site="Child" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.033699" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="76824" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1052" name="BossClicker" fullname="BossClicker" runstate="Runnable" testcasecount="17" result="Failed" site="Child" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.033231" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1053" name="Tests" fullname="BossClicker.Tests" runstate="Runnable" testcasecount="17" result="Failed" site="Child" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.030424" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1030" name="DiscreteAttackTests" fullname="BossClicker.Tests.DiscreteAttackTests" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.026780" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1032" name="FirstBossDiesOnFourthShot" fullname="BossClicker.Tests.DiscreteAttackTests.FirstBossDiesOnFourthShot" methodname="FirstBossDiesOnFourthShot" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" seed="1920254303" result="Failed" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.015606" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[  Expected: 4.0d +/- 1E-08.0d
+  But was:  11.509999999999998d
+]]></message>
+                <stack-trace><![CDATA[at BossClicker.Tests.DiscreteAttackTests.FirstBossDiesOnFourthShot () [0x00023] in C:\Users\root\Desktop\My ga\Assets\BossClicker\Tests\EditMode\DiscreteAttackTests.cs:27
+]]></stack-trace>
+              </failure>
+            </test-case>
+            <test-case id="1031" name="NoDamageBeforeFirstShot" fullname="BossClicker.Tests.DiscreteAttackTests.NoDamageBeforeFirstShot" methodname="NoDamageBeforeFirstShot" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" seed="828392823" result="Failed" start-time="2026-09-08 01:41:54Z" end-time="2026-09-08 01:41:54Z" duration="0.000492" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[  Expected: 34.0d +/- 1E-08.0d
+  But was:  32.509999999999998d
+]]></message>
+                <stack-trace><![CDATA[at BossClicker.Tests.DiscreteAttackTests.NoDamageBeforeFirstShot () [0x00023] in C:\Users\root\Desktop\My ga\Assets\BossClicker\Tests\EditMode\DiscreteAttackTests.cs:19
+]]></stack-trace>
+              </failure>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

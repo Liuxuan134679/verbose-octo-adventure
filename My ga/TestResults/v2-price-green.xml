@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-08 02:53:35Z" end-time="2026-09-08 02:53:35Z" duration="0.0434172">
+  <test-suite type="TestSuite" id="1040" name="Boss Forge Prototype" fullname="Boss Forge Prototype" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-09-08 02:53:35Z" end-time="2026-09-08 02:53:35Z" duration="0.043417" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1073" name="BossClicker.Tests.dll" fullname="C:/Users/root/Desktop/My ga/Library/ScriptAssemblies/BossClicker.Tests.dll" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-09-08 02:53:35Z" end-time="2026-09-08 02:53:35Z" duration="0.033155" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="96128" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1074" name="BossClicker" fullname="BossClicker" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-09-08 02:53:35Z" end-time="2026-09-08 02:53:35Z" duration="0.032545" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1075" name="Tests" fullname="BossClicker.Tests" runstate="Runnable" testcasecount="26" result="Passed" start-time="2026-09-08 02:53:35Z" end-time="2026-09-08 02:53:35Z" duration="0.029593" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1041" name="BalanceSimulationTests" fullname="BossClicker.Tests.BalanceSimulationTests" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-08 02:53:35Z" end-time="2026-09-08 02:53:35Z" duration="0.024013" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1049" name="FullTableHasPositivePricesIncreasingHealthAndSafeCurrencyCapacity" fullname="BossClicker.Tests.BalanceSimulationTests.FullTableHasPositivePricesIncreasingHealthAndSafeCurrencyCapacity" methodname="FullTableHasPositivePricesIncreasingHealthAndSafeCurrencyCapacity" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" seed="236484206" result="Passed" start-time="2026-09-08 02:53:35Z" end-time="2026-09-08 02:53:35Z" duration="0.014448" asserts="0">
+              <properties />
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

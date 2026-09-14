@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="3" result="Failed(Child)" total="3" passed="0" failed="3" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.0414356">
+  <test-suite type="TestSuite" id="1012" name="My ga" fullname="My ga" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.041436" total="3" passed="0" failed="3" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1017" name="BossClicker.Tests.dll" fullname="C:/Users/root/Desktop/My ga/Library/ScriptAssemblies/BossClicker.Tests.dll" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.031247" total="3" passed="0" failed="3" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="79024" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1018" name="BossClicker" fullname="BossClicker" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.030899" total="3" passed="0" failed="3" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1019" name="Tests" fullname="BossClicker.Tests" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.028600" total="3" passed="0" failed="3" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1013" name="GameSessionTests" fullname="BossClicker.Tests.GameSessionTests" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" testcasecount="3" result="Failed" site="Child" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.024528" total="3" passed="0" failed="3" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1016" name="DamageAfterDeadlineCannotWin" fullname="BossClicker.Tests.GameSessionTests.DamageAfterDeadlineCannotWin" methodname="DamageAfterDeadlineCannotWin" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="545156009" result="Failed" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.011651" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[  Expected: Failed
+  But was:  Fighting
+]]></message>
+                <stack-trace><![CDATA[at BossClicker.Tests.GameSessionTests.DamageAfterDeadlineCannotWin () [0x0003e] in C:\Users\root\Desktop\My ga\Assets\BossClicker\Tests\EditMode\GameSessionTests.cs:42
+]]></stack-trace>
+              </failure>
+            </test-case>
+            <test-case id="1014" name="FirstKillPaysOnceAndStartsRefresh" fullname="BossClicker.Tests.GameSessionTests.FirstKillPaysOnceAndStartsRefresh" methodname="FirstKillPaysOnceAndStartsRefresh" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="2013841293" result="Failed" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.001552" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[  Expected: True
+  But was:  False
+]]></message>
+                <stack-trace><![CDATA[at BossClicker.Tests.GameSessionTests.FirstKillPaysOnceAndStartsRefresh () [0x00013] in C:\Users\root\Desktop\My ga\Assets\BossClicker\Tests\EditMode\GameSessionTests.cs:16
+]]></stack-trace>
+              </failure>
+            </test-case>
+            <test-case id="1015" name="KillExactlyAtDeadlineWins" fullname="BossClicker.Tests.GameSessionTests.KillExactlyAtDeadlineWins" methodname="KillExactlyAtDeadlineWins" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="1804285853" result="Failed" start-time="2026-09-07 07:32:09Z" end-time="2026-09-07 07:32:09Z" duration="0.000306" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[  Expected: Intermission
+  But was:  Fighting
+]]></message>
+                <stack-trace><![CDATA[at BossClicker.Tests.GameSessionTests.KillExactlyAtDeadlineWins () [0x0003e] in C:\Users\root\Desktop\My ga\Assets\BossClicker\Tests\EditMode\GameSessionTests.cs:32
+]]></stack-trace>
+              </failure>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

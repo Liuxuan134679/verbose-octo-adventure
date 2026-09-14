@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131cd9ca02d579b4499a4f20e2d2078d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerPerLevel: 0.08
+  projectileSeconds: 0.12
+  goldPerLevel: 0.03
+  weapons:
+  - name: "\u5236\u5F0F\u624B\u67AA"
+    baseDamage: 10
+    baseAmmo: 12
+    cost: 0
+    powerCosts: 19000000000000002d0000000000000050000000000000008c00000000000000f00000000000000090010000000000008a02000000000000e803000000000000
+    ammoCosts: 1e0000000000000037000000000000005f00000000000000a0000000000000000e01000000000000c201000000000000d0020000000000004c04000000000000
+  - name: "\u91CD\u578B\u624B\u67AA"
+    baseDamage: 30
+    baseAmmo: 14
+    cost: 180
+    powerCosts: 7800000000000000d20000000000000068010000000000005802000000000000e80300000000000072060000000000008c0a0000000000003011000000000000
+    ammoCosts: 6400000000000000b400000000000000360100000000000008020000000000007003000000000000aa0500000000000060090000000000003c0f000000000000
+  - name: "\u51B2\u950B\u624B\u67AA"
+    baseDamage: 85
+    baseAmmo: 16
+    cost: 900
+    powerCosts: f4010000000000005203000000000000aa050000000000006009000000000000a00f000000000000c819000000000000302a0000000000005c44000000000000
+    ammoCosts: c201000000000000f80200000000000014050000000000006608000000000000de0d0000000000000c17000000000000e425000000000000b83d000000000000
+  - name: "\u7D27\u51D1\u51B2\u950B\u67AA"
+    baseDamage: 240
+    baseAmmo: 18
+    cost: 3800
+    powerCosts: 9808000000000000740e00000000000038180000000000003c280000000000006842000000000000606d000000000000b0b3000000000000f824010000000000
+    ammoCosts: 6c07000000000000800c00000000000018150000000000002823000000000000983a000000000000b45f000000000000409c000000000000e8fd000000000000
+  goldCosts: 78000000000000009001000000000000b004000000000000ac0d0000000000002823000000000000f05500000000000020cb000000000000c0d4010000000000
+  bosses:
+  - name: "\u8857\u89D2\u83DC\u9E1F"
+    health: 60
+    hitReward: 17
+    killReward: 7
+    firstBonus: 20
+  - name: "\u94C1\u6876\u5B88\u536B"
+    health: 90
+    hitReward: 28
+    killReward: 12
+    firstBonus: 30
+  - name: "\u5C4B\u9876\u62F3\u738B"
+    health: 132
+    hitReward: 49
+    killReward: 21
+    firstBonus: 50
+  - name: "\u5E9F\u6599\u730E\u624B"
+    health: 210
+    hitReward: 84
+    killReward: 36
+    firstBonus: 80
+  - name: "\u94A2\u7259\u961F\u957F"
+    health: 315
+    hitReward: 133
+    killReward: 57
+    firstBonus: 120
+  - name: "\u6E2F\u53E3\u66B4\u5F92"
+    health: 450
+    hitReward: 210
+    killReward: 90
+    firstBonus: 180
+  - name: "\u7206\u7834\u53A8\u5E08"
+    health: 680
+    hitReward: 350
+    killReward: 150
+    firstBonus: 300
+  - name: "\u9713\u8679\u4FDD\u9556"
+    health: 1020
+    hitReward: 525
+    killReward: 225
+    firstBonus: 450
+  - name: "\u5730\u94C1\u9738\u4E3B"
+    health: 1450
+    hitReward: 770
+    killReward: 330
+    firstBonus: 650
+  - name: "\u91D1\u5E93\u770B\u5B88"
+    health: 2160
+    hitReward: 1260
+    killReward: 540
+    firstBonus: 1000
+  - name: "\u88C5\u7532\u5DE8\u6C49"
+    health: 3240
+    hitReward: 1890
+    killReward: 810
+    firstBonus: 1500
+  - name: "\u57CE\u5E02\u51A0\u519B"
+    health: 4750
+    hitReward: 2800
+    killReward: 1200
+    firstBonus: 2200

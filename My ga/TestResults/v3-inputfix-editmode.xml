@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="19" result="Passed" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.1380929">
+  <test-suite type="TestSuite" id="1031" name="LOOTSHOT Prototype" fullname="LOOTSHOT Prototype" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.138093" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1055" name="BossClicker.Tests.dll" fullname="C:/Users/root/Desktop/My ga/Library/ScriptAssemblies/BossClicker.Tests.dll" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.127216" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="29836" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1056" name="BossClicker" fullname="BossClicker" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.126720" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1057" name="Tests" fullname="BossClicker.Tests" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.124098" total="19" passed="19" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1032" name="BalanceSimulationTests" fullname="BossClicker.Tests.BalanceSimulationTests" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.037942" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1034" name="EveryWeaponSegmentEndsWithAnUpgradeGate" fullname="BossClicker.Tests.BalanceSimulationTests.EveryWeaponSegmentEndsWithAnUpgradeGate" methodname="EveryWeaponSegmentEndsWithAnUpgradeGate" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" seed="70268897" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.012581" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1035" name="GreedyRouteClearsAllTwelveBossesWithoutDeadlock" fullname="BossClicker.Tests.BalanceSimulationTests.GreedyRouteClearsAllTwelveBossesWithoutDeadlock" methodname="GreedyRouteClearsAllTwelveBossesWithoutDeadlock" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" seed="1063006947" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.010873" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1033" name="PrototypeTableHasFourIncreasingWeaponsAndTwelveBosses" fullname="BossClicker.Tests.BalanceSimulationTests.PrototypeTableHasFourIncreasingWeaponsAndTwelveBosses" methodname="PrototypeTableHasFourIncreasingWeaponsAndTwelveBosses" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" seed="285763361" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.001621" asserts="0">
+              <properties />
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1036" name="DiscreteAttackTests" fullname="BossClicker.Tests.DiscreteAttackTests" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.007835" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1038" name="KillingHitCancelsUnresolvedTailShots" fullname="BossClicker.Tests.DiscreteAttackTests.KillingHitCancelsUnresolvedTailShots" methodname="KillingHitCancelsUnresolvedTailShots" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" seed="23330640" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.001433" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1039" name="LastProjectileCanWinAfterMagazineIsEmpty" fullname="BossClicker.Tests.DiscreteAttackTests.LastProjectileCanWinAfterMagazineIsEmpty" methodname="LastProjectileCanWinAfterMagazineIsEmpty" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" seed="2120922971" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000680" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1037" name="RapidClicksQueueIndependentProjectilesWithoutCooldown" fullname="BossClicker.Tests.DiscreteAttackTests.RapidClicksQueueIndependentProjectilesWithoutCooldown" methodname="RapidClicksQueueIndependentProjectilesWithoutCooldown" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" seed="1950112822" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000543" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1040" name="ReturningToMenuDiscardsUnresolvedShots" fullname="BossClicker.Tests.DiscreteAttackTests.ReturningToMenuDiscardsUnresolvedShots" methodname="ReturningToMenuDiscardsUnresolvedShots" classname="BossClicker.Tests.DiscreteAttackTests" runstate="Runnable" seed="1401616366" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000391" asserts="0">
+              <properties />
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1041" name="GameSessionTests" fullname="BossClicker.Tests.GameSessionTests" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.005565" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1042" name="ClickCreatesOnePendingShotAndConsumesOneAmmo" fullname="BossClicker.Tests.GameSessionTests.ClickCreatesOnePendingShotAndConsumesOneAmmo" methodname="ClickCreatesOnePendingShotAndConsumesOneAmmo" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="2029112247" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000757" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1043" name="EmptyMagazineWaitsThenLosesAndKeepsCoinsAndTarget" fullname="BossClicker.Tests.GameSessionTests.EmptyMagazineWaitsThenLosesAndKeepsCoinsAndTarget" methodname="EmptyMagazineWaitsThenLosesAndKeepsCoinsAndTarget" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="84911129" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000594" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1045" name="FarmingClearedBossDoesNotAdvanceTheFrontier" fullname="BossClicker.Tests.GameSessionTests.FarmingClearedBossDoesNotAdvanceTheFrontier" methodname="FarmingClearedBossDoesNotAdvanceTheFrontier" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="244798125" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000302" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1048" name="GoldUpgradeIsLinearAndFirstClearBonusStaysFixed" fullname="BossClicker.Tests.GameSessionTests.GoldUpgradeIsLinearAndFirstClearBonusStaysFixed" methodname="GoldUpgradeIsLinearAndFirstClearBonusStaysFixed" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="901262857" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000873" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1044" name="OnlyFirstClearAdvancesTheDefaultTarget" fullname="BossClicker.Tests.GameSessionTests.OnlyFirstClearAdvancesTheDefaultTarget" methodname="OnlyFirstClearAdvancesTheDefaultTarget" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="1142053272" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000402" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1047" name="PowerAndAmmoLevelsBelongToEachWeapon" fullname="BossClicker.Tests.GameSessionTests.PowerAndAmmoLevelsBelongToEachWeapon" methodname="PowerAndAmmoLevelsBelongToEachWeapon" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="1426575772" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000758" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1046" name="PurchasesAndSelectionsAreBlockedDuringBattle" fullname="BossClicker.Tests.GameSessionTests.PurchasesAndSelectionsAreBlockedDuringBattle" methodname="PurchasesAndSelectionsAreBlockedDuringBattle" classname="BossClicker.Tests.GameSessionTests" runstate="Runnable" seed="280319640" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.000264" asserts="0">
+              <properties />
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1049" name="SaveStoreTests" fullname="BossClicker.Tests.SaveStoreTests" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.067654" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1053" name="CorruptMainRecoversBackupWithoutOverwritingIt" fullname="BossClicker.Tests.SaveStoreTests.CorruptMainRecoversBackupWithoutOverwritingIt" methodname="CorruptMainRecoversBackupWithoutOverwritingIt" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" seed="548277667" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.031649" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1054" name="InvalidRangesAreRejectedAndFilesArePreserved" fullname="BossClicker.Tests.SaveStoreTests.InvalidRangesAreRejectedAndFilesArePreserved" methodname="InvalidRangesAreRejectedAndFilesArePreserved" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" seed="1522649976" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.012033" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1050" name="MissingSaveStartsFreshAndRoundTripKeepsV3Progress" fullname="BossClicker.Tests.SaveStoreTests.MissingSaveStartsFreshAndRoundTripKeepsV3Progress" methodname="MissingSaveStartsFreshAndRoundTripKeepsV3Progress" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" seed="365618627" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.004276" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1052" name="ResetReplacesAllV3Progress" fullname="BossClicker.Tests.SaveStoreTests.ResetReplacesAllV3Progress" methodname="ResetReplacesAllV3Progress" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" seed="480115914" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.005127" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1051" name="V3SaveLeavesOlderSaveFilesUntouched" fullname="BossClicker.Tests.SaveStoreTests.V3SaveLeavesOlderSaveFilesUntouched" methodname="V3SaveLeavesOlderSaveFilesUntouched" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" seed="1288694056" result="Passed" start-time="2026-09-14 06:38:51Z" end-time="2026-09-14 06:38:51Z" duration="0.003529" asserts="0">
+              <properties />
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

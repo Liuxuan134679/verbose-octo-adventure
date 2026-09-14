@@ -1,0 +1,8 @@
+{
+  "name": "BossClicker.Runtime",
+  "rootNamespace": "BossClicker",
+  "references": [
+    "UnityEngine.UI",
+    "Unity.TextMeshPro"
+  ]
+}

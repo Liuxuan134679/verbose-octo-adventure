@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-08 07:20:27Z" end-time="2026-09-08 07:20:27Z" duration="0.0615843">
+  <test-suite type="TestSuite" id="1041" name="Boss Forge Prototype" fullname="Boss Forge Prototype" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-09-08 07:20:27Z" end-time="2026-09-08 07:20:27Z" duration="0.061584" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1075" name="BossClicker.Tests.dll" fullname="C:/Users/root/Desktop/My ga/Library/ScriptAssemblies/BossClicker.Tests.dll" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-09-08 07:20:27Z" end-time="2026-09-08 07:20:27Z" duration="0.040010" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="61388" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1076" name="BossClicker" fullname="BossClicker" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-09-08 07:20:27Z" end-time="2026-09-08 07:20:27Z" duration="0.037686" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1077" name="Tests" fullname="BossClicker.Tests" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-09-08 07:20:27Z" end-time="2026-09-08 07:20:27Z" duration="0.034869" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1068" name="SaveStoreTests" fullname="BossClicker.Tests.SaveStoreTests" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-08 07:20:27Z" end-time="2026-09-08 07:20:27Z" duration="0.031540" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1071" name="ResetReplacesAllV2ProgressWithFreshSave" fullname="BossClicker.Tests.SaveStoreTests.ResetReplacesAllV2ProgressWithFreshSave" methodname="ResetReplacesAllV2ProgressWithFreshSave" classname="BossClicker.Tests.SaveStoreTests" runstate="Runnable" seed="1171271023" result="Passed" start-time="2026-09-08 07:20:27Z" end-time="2026-09-08 07:20:27Z" duration="0.022026" asserts="0">
+              <properties />
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

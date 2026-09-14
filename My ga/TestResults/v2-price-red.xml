@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Failed(Child)" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-08 02:48:32Z" end-time="2026-09-08 02:48:32Z" duration="0.0393677">
+  <test-suite type="TestSuite" id="1040" name="Boss Forge Prototype" fullname="Boss Forge Prototype" runstate="Runnable" testcasecount="26" result="Failed" site="Child" start-time="2026-09-08 02:48:32Z" end-time="2026-09-08 02:48:32Z" duration="0.039368" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1073" name="BossClicker.Tests.dll" fullname="C:/Users/root/Desktop/My ga/Library/ScriptAssemblies/BossClicker.Tests.dll" runstate="Runnable" testcasecount="26" result="Failed" site="Child" start-time="2026-09-08 02:48:32Z" end-time="2026-09-08 02:48:32Z" duration="0.027901" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="55856" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1074" name="BossClicker" fullname="BossClicker" runstate="Runnable" testcasecount="26" result="Failed" site="Child" start-time="2026-09-08 02:48:32Z" end-time="2026-09-08 02:48:32Z" duration="0.027327" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1075" name="Tests" fullname="BossClicker.Tests" runstate="Runnable" testcasecount="26" result="Failed" site="Child" start-time="2026-09-08 02:48:32Z" end-time="2026-09-08 02:48:32Z" duration="0.024534" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1041" name="BalanceSimulationTests" fullname="BossClicker.Tests.BalanceSimulationTests" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" testcasecount="7" result="Failed" site="Child" start-time="2026-09-08 02:48:32Z" end-time="2026-09-08 02:48:32Z" duration="0.020179" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1049" name="FullTableHasPositivePricesIncreasingHealthAndSafeCurrencyCapacity" fullname="BossClicker.Tests.BalanceSimulationTests.FullTableHasPositivePricesIncreasingHealthAndSafeCurrencyCapacity" methodname="FullTableHasPositivePricesIncreasingHealthAndSafeCurrencyCapacity" classname="BossClicker.Tests.BalanceSimulationTests" runstate="Runnable" seed="608153359" result="Failed" start-time="2026-09-08 02:48:32Z" end-time="2026-09-08 02:48:32Z" duration="0.011685" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[  W3 must cost more than W2.
+  Expected: greater than 120
+  But was:  80
+]]></message>
+                <stack-trace><![CDATA[at BossClicker.Tests.BalanceSimulationTests.FullTableHasPositivePricesIncreasingHealthAndSafeCurrencyCapacity () [0x000cb] in C:\Users\root\Desktop\My ga\Assets\BossClicker\Tests\EditMode\BalanceSimulationTests.cs:149
+]]></stack-trace>
+              </failure>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
