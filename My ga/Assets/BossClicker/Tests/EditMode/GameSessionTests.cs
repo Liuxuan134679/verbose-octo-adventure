@@ -166,6 +166,47 @@ namespace BossClicker.Tests
         }
 
         [Test]
+        public void InspectorUpgradeLimitControlsEachAttribute()
+        {
+            balance.maxAttributeLevel = 1;
+            foreach (var weapon in balance.weapons)
+                weapon.upgradeCosts = new[] { weapon.upgradeCosts[0], weapon.upgradeCosts[1] };
+            var game = new GameSession(balance);
+            game.Data.coins = long.MaxValue;
+
+            Assert.IsTrue(game.TryBuyPower());
+            Assert.IsFalse(game.TryBuyPower());
+            Assert.IsTrue(game.TryBuyAmmo());
+            Assert.IsFalse(game.TryBuyAmmo());
+            Assert.AreEqual(2, game.TotalUpgradeLevel);
+        }
+
+        [Test]
+        public void InspectorBossesPerWeaponControlsNextWeaponGate()
+        {
+            balance.bossesPerWeapon = 2;
+            System.Array.Resize(ref balance.bosses, balance.weapons.Length * balance.bossesPerWeapon);
+            var data = new SaveData(balance.weapons.Length) {
+                coins = balance.weapons[1].cost,
+                highestClearedBossIndex = 0,
+                selectedBossIndex = 1
+            };
+            var game = new GameSession(balance, data);
+
+            Assert.IsFalse(game.TryBuyNextWeapon());
+            game.Data.highestClearedBossIndex = 1;
+            Assert.IsTrue(game.TryBuyNextWeapon());
+        }
+
+        [Test]
+        public void InspectorStartingCoinsControlsFreshProgress()
+        {
+            balance.startingCoins = 321;
+
+            Assert.AreEqual(321, new GameSession(balance).Data.coins);
+        }
+
+        [Test]
         public void GoldUpgradeIsLinearAndFirstClearBonusStaysFixed()
         {
             balance.bosses[0].health = 10;

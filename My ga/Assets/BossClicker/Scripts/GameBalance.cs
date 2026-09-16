@@ -7,19 +7,22 @@ namespace BossClicker
     [CreateAssetMenu(menuName = "Boss Clicker/Balance", fileName = "PrototypeBalance")]
     public sealed class GameBalance : ScriptableObject
     {
-        public const int BossesPerWeapon = 3;
-        public const int MaxAttributeLevel = 8;
-        public const int TotalUpgradeLevels = MaxAttributeLevel * 2;
-
         [Serializable]
         public sealed class Weapon
         {
+            [InspectorName("武器名称")]
             public string name;
+            [InspectorName("基础单发伤害")]
             public double baseDamage;
+            [InspectorName("基础弹匣容量")]
             public int baseAmmo;
+            [InspectorName("每级增加子弹")]
             public int ammoPerLevel;
+            [InspectorName("每秒射击次数")]
             public double fireRate;
+            [InspectorName("购买价格")]
             public long cost;
+            [InspectorName("共享强化价格（按总等级）")]
             public long[] upgradeCosts;
 
             public Weapon(string name, double damage, int ammo, int ammoGain, double shotsPerSecond,
@@ -38,12 +41,19 @@ namespace BossClicker
         [Serializable]
         public sealed class Boss
         {
+            [InspectorName("Boss 名称")]
             public string name;
+            [InspectorName("生命值")]
             public double health;
+            [InspectorName("命中金币总额")]
             public long hitReward;
+            [InspectorName("击杀奖励")]
             public long killReward;
+            [InspectorName("首次通关奖励")]
             public long firstBonus;
+            [InspectorName("外观编号")]
             public int visualId;
+            [InspectorName("强化外观")]
             public bool enhanced;
 
             public Boss(string name, double health, long hitReward, long killReward,
@@ -59,10 +69,28 @@ namespace BossClicker
             }
         }
 
-        public double powerPerLevel = .08;
-        public double projectileSeconds = .12;
-        public double goldPerLevel = .03;
+        [Header("全局成长配置")]
+        [InspectorName("初始金币")]
+        [Min(0)] public long startingCoins;
+        [InspectorName("每把武器对应 Boss 数")]
+        [Tooltip("Boss 列表数量必须等于武器数量 × 此数值。")]
+        [Min(1)] public int bossesPerWeapon = 3;
+        [InspectorName("火力/弹量单项等级上限")]
+        [Tooltip("每把武器的共享强化价格数量必须等于此数值 × 2。")]
+        [Min(1)] public int maxAttributeLevel = 8;
+        [InspectorName("Boss 外观数量")]
+        [Min(1)] public int bossVisualVariantCount = 12;
+        [InspectorName("每级火力加成")]
+        [Min(0)] public double powerPerLevel = .08;
+        [InspectorName("子弹飞行时间（秒）")]
+        [Min(.01f)] public double projectileSeconds = .12;
+        [InspectorName("每级金币加成")]
+        [Min(0)] public double goldPerLevel = .03;
 
+        public int TotalUpgradeLevels => maxAttributeLevel * 2;
+
+        [Header("武器配置")]
+        [InspectorName("武器列表")]
         public Weapon[] weapons = {
             new Weapon("制式手枪", 10, 18, 2, 1.00, 0, UpgradeCosts(10)),
             new Weapon("大口径手枪", 30, 20, 2, 1.15, 1350, UpgradeCosts(40)),
@@ -74,8 +102,12 @@ namespace BossClicker
             new Weapon("突击步枪", 15000, 32, 3, 2.00, 4450000, UpgradeCosts(80000))
         };
 
+        [Header("金币强化配置")]
+        [InspectorName("各级金币强化价格")]
         public long[] goldCosts = { 100, 400, 1500, 5500, 20000, 70000, 240000, 800000 };
 
+        [Header("Boss 配置")]
+        [InspectorName("Boss 列表")]
         public Boss[] bosses = {
             new Boss("街角菜鸟", 100, 70, 30, 150, 0, false),
             new Boss("铁桶守卫", 190, 130, 50, 220, 1, false),
@@ -109,12 +141,15 @@ namespace BossClicker
             return multipliers.Select(x => checked(x * unit)).ToArray();
         }
 
+        public SaveData CreateInitialSave() => new SaveData(weapons.Length) { coins = startingCoins };
+
         public bool IsValid()
         {
             if (weapons == null || weapons.Length == 0 || bosses == null ||
-                bosses.Length != weapons.Length * BossesPerWeapon || goldCosts == null ||
-                goldCosts.Length != 8 || powerPerLevel <= 0 || projectileSeconds <= 0 ||
-                goldPerLevel <= 0 || goldCosts.Any(x => x <= 0))
+                bossesPerWeapon <= 0 || bosses.Length != weapons.Length * bossesPerWeapon ||
+                maxAttributeLevel <= 0 || bossVisualVariantCount <= 0 || startingCoins < 0 ||
+                goldCosts == null || goldCosts.Length == 0 || powerPerLevel <= 0 ||
+                projectileSeconds <= 0 || goldPerLevel <= 0 || goldCosts.Any(x => x <= 0))
                 return false;
 
             for (int i = 0; i < weapons.Length; i++)
@@ -135,7 +170,7 @@ namespace BossClicker
                 var boss = bosses[i];
                 if (boss == null || string.IsNullOrEmpty(boss.name) || boss.health <= 0 ||
                     boss.hitReward < 0 || boss.killReward < 0 || boss.firstBonus < 0 ||
-                    boss.visualId < 0 || boss.visualId >= 12 ||
+                    boss.visualId < 0 || boss.visualId >= bossVisualVariantCount ||
                     (i > 0 && boss.health <= bosses[i - 1].health))
                     return false;
             }

@@ -37,9 +37,9 @@ namespace BossClicker
                 return false;
 
             for (int i = 0; i < balance.weapons.Length; i++)
-                if (powerLevels[i] < 0 || powerLevels[i] > GameBalance.MaxAttributeLevel ||
-                    ammoLevels[i] < 0 || ammoLevels[i] > GameBalance.MaxAttributeLevel ||
-                    powerLevels[i] + ammoLevels[i] > GameBalance.TotalUpgradeLevels)
+                if (powerLevels[i] < 0 || powerLevels[i] > balance.maxAttributeLevel ||
+                    ammoLevels[i] < 0 || ammoLevels[i] > balance.maxAttributeLevel ||
+                    powerLevels[i] + ammoLevels[i] > balance.TotalUpgradeLevels)
                     return false;
             return true;
         }
@@ -102,7 +102,7 @@ namespace BossClicker
         {
             this.balance = balance ?? throw new ArgumentNullException(nameof(balance));
             if (!balance.IsValid()) throw new ArgumentException("Invalid battle configuration.");
-            Data = data ?? new SaveData(balance.weapons.Length);
+            Data = data ?? balance.CreateInitialSave();
             if (!Data.IsValid(balance)) throw new ArgumentException("Invalid saved progress.");
         }
 
@@ -224,7 +224,7 @@ namespace BossClicker
             if (Phase != BattlePhase.Menu) return false;
             int next = Data.highestOwnedWeaponIndex + 1;
             if (next >= balance.weapons.Length ||
-                Data.highestClearedBossIndex < next * GameBalance.BossesPerWeapon - 1 ||
+                Data.highestClearedBossIndex < next * balance.bossesPerWeapon - 1 ||
                 Data.coins < balance.weapons[next].cost) return false;
             Data.coins -= balance.weapons[next].cost;
             Data.highestOwnedWeaponIndex = next;
@@ -246,7 +246,7 @@ namespace BossClicker
 
         bool BuyWeaponUpgrade(int weapon, ref int attributeLevel)
         {
-            if (attributeLevel >= GameBalance.MaxAttributeLevel) return false;
+            if (attributeLevel >= balance.maxAttributeLevel) return false;
             var costs = balance.weapons[weapon].upgradeCosts;
             int total = Data.powerLevels[weapon] + Data.ammoLevels[weapon];
             if (total >= costs.Length || Data.coins < costs[total]) return false;

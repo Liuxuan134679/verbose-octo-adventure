@@ -25,7 +25,7 @@ namespace BossClicker
             message = "";
             if (!Exists(path) && !Exists(path + ".bak"))
             {
-                data = new SaveData(balance.weapons.Length);
+                data = balance.CreateInitialSave();
                 return true;
             }
             foreach (string candidate in new[] { path, path + ".bak" })
@@ -86,7 +86,7 @@ namespace BossClicker
 
         public bool TryReset(out SaveData data, out string message)
         {
-            data = new SaveData(balance.weapons.Length);
+            data = balance.CreateInitialSave();
             message = "";
             try
             {

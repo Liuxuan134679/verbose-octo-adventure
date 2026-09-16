@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1904
     height: 973
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -445,9 +445,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: b4470000
       m_LastClickedID: 0
-      m_ExpandedIDs: 6aaeffffaeaeffff9eb0ffffa8f8ffff80faffff
+      m_ExpandedIDs: b8f6ffffb0faffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -926,9 +926,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 397.938, y: 301.79562, z: -5.4573197}
+    m_Target: {x: 355.44376, y: 309.7341, z: -6.241828}
     speed: 2
-    m_Value: {x: 397.938, y: 301.79562, z: -5.4573197}
+    m_Value: {x: 355.44376, y: 309.7341, z: -6.241828}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -978,9 +978,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 555.7345
+    m_Target: 634.1854
     speed: 2
-    m_Value: 555.7345
+    m_Value: 634.1854
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1050,7 +1050,7 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/BossClicker/Scripts
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1058,16 +1058,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets
+  - Assets/BossClicker/Scripts
   m_LastFoldersGridSize: 96
   m_LastProjectPath: C:\Users\root\Documents\GitHub\verbose-octo-adventure\My ga
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 1}
-    m_SelectedIDs: a06f0000
-    m_LastClickedID: 28576
-    m_ExpandedIDs: 00000000a06f000000ca9a3b
+    scrollPos: {x: 0, y: 13}
+    m_SelectedIDs: a8a60000
+    m_LastClickedID: 42664
+    m_ExpandedIDs: 00000000a06f0000b06f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1122,7 +1122,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000784f01000c4b0100f0ab2d008a81010076960000d0fa04003cfc04003acc0500fc970000509c0000dc9b0000c2e400007aae0000da7c00003eda0000629a00009aaa000010b500007e260100dc24010000ca00004298000078b3000086cc00000ca7000046b5000054b7000010ba00001ed6000050bc00004ebe000020be000044be000010be0000e0d60500f6c2110048610100862a0300882a03004ec000009eb100001eda000024da00002ada000030da000018fd0300a0000400904d0100844c0100366a0100f8690100947801000e0401007e4a0500ec4a050070d80100fe05020000000000c8b1000028b200002ab2000030b20000d4b00000d8b4000008b5000020f20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

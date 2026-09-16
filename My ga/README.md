@@ -25,6 +25,15 @@ WebGL 成品位于 `Builds/WebGL/index.html`，不能直接双击它。双击项
 
 也可以在 Unity 中选择 `Boss Clicker > Build And Run WebGL Prototype`。出现 “Unable to parse ... Loading pre-compressed content via a file:// URL” 表示仍在直接打开文件，应使用上述两个入口。
 
+## Inspector 手动调参
+
+在 Project 窗口选择 `Assets/BossClicker/Data/PrototypeBalance.asset`。全局成长、8 把武器、金币强化价格和 24 个 Boss 的运行参数都可以直接修改，进入 Play 后读取当前资产值。
+
+- 修改“火力/弹量单项等级上限”时，每把武器的“共享强化价格”元素数量应等于上限 × 2。
+- 修改“每把武器对应 Boss 数”时，Boss 列表元素数量应等于武器数量 × 该数值。
+- 修改配置导致旧存档超出新上限时，使用主菜单重置功能创建符合新配置的测试存档。
+- `Boss Clicker > Apply V4.1 Balance` 会将该资产恢复为默认数值，手动调整后不要执行这个命令，除非确实需要重置数值表。
+
 ## v4.1 数值
 
 ```text

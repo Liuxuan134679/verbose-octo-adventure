@@ -28,7 +28,7 @@ namespace BossClicker.Tests
         {
             Assert.AreEqual(8, balance.weapons.Length);
             Assert.AreEqual(24, balance.bosses.Length);
-            Assert.AreEqual(3, GameBalance.BossesPerWeapon);
+            Assert.AreEqual(3, balance.bossesPerWeapon);
             for (int i = 1; i < balance.weapons.Length; i++)
                 Assert.Greater(balance.weapons[i].cost, balance.weapons[i - 1].cost);
             for (int i = 1; i < balance.bosses.Length; i++)
@@ -39,7 +39,7 @@ namespace BossClicker.Tests
             {
                 Assert.Greater(weapon.ammoPerLevel, 0);
                 Assert.Greater(weapon.fireRate, 0);
-                Assert.AreEqual(GameBalance.TotalUpgradeLevels, weapon.upgradeCosts.Length);
+                Assert.AreEqual(balance.TotalUpgradeLevels, weapon.upgradeCosts.Length);
                 Assert.IsTrue(weapon.upgradeCosts.All(x => x > 0));
             }
         }
@@ -95,9 +95,9 @@ namespace BossClicker.Tests
             for (int weapon = 0; weapon < balance.weapons.Length; weapon++)
             {
                 int[] targets = { 0, BossTwoLevels[weapon], BossThreeLevels[weapon] };
-                for (int localBoss = 0; localBoss < GameBalance.BossesPerWeapon; localBoss++)
+                for (int localBoss = 0; localBoss < balance.bossesPerWeapon; localBoss++)
                 {
-                    int frontier = weapon * GameBalance.BossesPerWeapon + localBoss;
+                    int frontier = weapon * balance.bossesPerWeapon + localBoss;
                     while (game.TotalUpgradeLevel < targets[localBoss])
                     {
                         char upgrade = UpgradePlans[weapon][game.TotalUpgradeLevel];
@@ -119,7 +119,7 @@ namespace BossClicker.Tests
                 int replays = 0;
                 while (!game.TryBuyNextWeapon())
                 {
-                    int thirdBoss = weapon * GameBalance.BossesPerWeapon + 2;
+                    int thirdBoss = weapon * balance.bossesPerWeapon + 2;
                     Assert.IsTrue(game.SelectBoss(thirdBoss));
                     Assert.IsTrue(FinishBattle(game));
                     battles++;
@@ -144,9 +144,9 @@ namespace BossClicker.Tests
             for (int weapon = 0; weapon < balance.weapons.Length; weapon++)
             {
                 int[] targets = { 0, BossTwoLevels[weapon], BossThreeLevels[weapon] };
-                for (int localBoss = 0; localBoss < GameBalance.BossesPerWeapon; localBoss++)
+                for (int localBoss = 0; localBoss < balance.bossesPerWeapon; localBoss++)
                 {
-                    int frontier = weapon * GameBalance.BossesPerWeapon + localBoss;
+                    int frontier = weapon * balance.bossesPerWeapon + localBoss;
                     while (game.TotalUpgradeLevel < targets[localBoss])
                     {
                         char upgrade = UpgradePlans[weapon][game.TotalUpgradeLevel];
@@ -173,7 +173,7 @@ namespace BossClicker.Tests
                 if (weapon >= balance.weapons.Length - 1) continue;
                 while (!game.TryBuyNextWeapon())
                 {
-                    int thirdBoss = weapon * GameBalance.BossesPerWeapon + 2;
+                    int thirdBoss = weapon * balance.bossesPerWeapon + 2;
                     Assert.IsTrue(game.SelectBoss(thirdBoss));
                     Assert.IsTrue(FinishBattle(game));
                     battles++;
@@ -191,7 +191,7 @@ namespace BossClicker.Tests
         {
             for (int level = 0; level < balance.goldCosts.Length; level++)
             {
-                var boss = balance.bosses[Math.Min((level + 1) * GameBalance.BossesPerWeapon - 1,
+                var boss = balance.bosses[Math.Min((level + 1) * balance.bossesPerWeapon - 1,
                     balance.bosses.Length - 1)];
                 decimal before = 1m + (decimal)balance.goldPerLevel * level;
                 decimal after = before + (decimal)balance.goldPerLevel;
@@ -206,7 +206,7 @@ namespace BossClicker.Tests
         void AssertGate(int weaponIndex, int localBossIndex, int requiredLevel)
         {
             var weapon = balance.weapons[weaponIndex];
-            var boss = balance.bosses[weaponIndex * GameBalance.BossesPerWeapon + localBossIndex];
+            var boss = balance.bosses[weaponIndex * balance.bossesPerWeapon + localBossIndex];
             double bestBelow = 0;
             for (int total = 0; total < requiredLevel; total++)
                 for (int power = 0; power <= total; power++)

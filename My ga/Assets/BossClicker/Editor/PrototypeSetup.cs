@@ -177,8 +177,8 @@ namespace BossClicker.Editor
             view.bossButtonLabels = new TMP_Text[balance.bosses.Length];
             for (int i = 0; i < balance.bosses.Length; i++)
             {
-                int column = i / GameBalance.BossesPerWeapon;
-                int row = i % GameBalance.BossesPerWeapon;
+                int column = i / balance.bossesPerWeapon;
+                int row = i % balance.bossesPerWeapon;
                 view.bossButtons[i] = Button(bossSelect, "Boss" + (i + 1), (i + 1).ToString("00"),
                     3 + column * 43, 3 + row * 21, 40, 19,
                     out view.bossButtonLabels[i], Paper, 9);
