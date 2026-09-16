@@ -210,19 +210,19 @@ namespace BossClicker
             weaponStatsText.text = $"单发火力 {Number(Session.CurrentDamage)}  ·  弹量 {Session.CurrentAmmo}  ·  射速 {Session.CurrentFireRate:0.00}/秒\n" +
                 $"总强化 {Session.TotalUpgradeLevel}/{balance.TotalUpgradeLevels}  ·  整匣伤害 {Number(Session.CurrentDamage * Session.CurrentAmmo)}";
 
-            bool totalMax = Session.TotalUpgradeLevel >= weapon.upgradeCosts.Length;
-            long upgradeCost = Session.NextUpgradeCost;
+            long powerCost = Session.NextPowerUpgradeCost;
             bool powerMax = powerLevel >= balance.maxAttributeLevel;
             powerInfoText.text = $"火力  Lv.{powerLevel}/{balance.maxAttributeLevel}\n{Number(Session.CurrentDamage)}" +
                 (powerMax ? "  已满级" : $"  →  {Number(DamageAt(weaponIndex, powerLevel + 1))}");
-            powerPriceText.text = powerMax ? "火力已满" : totalMax ? "强化已满" : $"升级  {Number(upgradeCost)}";
-            powerButton.interactable = !powerMax && !totalMax && data.coins >= upgradeCost;
+            powerPriceText.text = powerMax ? "火力已满" : $"升级  {Number(powerCost)}";
+            powerButton.interactable = !powerMax && data.coins >= powerCost;
 
+            long ammoCost = Session.NextAmmoUpgradeCost;
             bool ammoMax = ammoLevel >= balance.maxAttributeLevel;
             ammoInfoText.text = $"弹量  Lv.{ammoLevel}/{balance.maxAttributeLevel}\n{Session.CurrentAmmo}" +
                 (ammoMax ? "  已满级" : $"  →  {Session.CurrentAmmo + weapon.ammoPerLevel}");
-            ammoPriceText.text = ammoMax ? "弹量已满" : totalMax ? "强化已满" : $"升级  {Number(upgradeCost)}";
-            ammoButton.interactable = !ammoMax && !totalMax && data.coins >= upgradeCost;
+            ammoPriceText.text = ammoMax ? "弹量已满" : $"升级  {Number(ammoCost)}";
+            ammoButton.interactable = !ammoMax && data.coins >= ammoCost;
 
             bool goldMax = data.goldLevel >= balance.goldCosts.Length;
             goldInfoText.text = $"金币加成  Lv.{data.goldLevel}/{balance.goldCosts.Length}\n×{Session.GoldMultiplier:0.00}" +
@@ -259,12 +259,9 @@ namespace BossClicker
             else
             {
                 var next = balance.weapons[nextWeapon];
-                int gate = nextWeapon * balance.bossesPerWeapon - 1;
-                bool unlocked = data.highestClearedBossIndex >= gate;
-                nextWeaponInfoText.text = $"下一把：W{nextWeapon + 1}  {next.name}\n火力 {Number(next.baseDamage)} · 弹量 {next.baseAmmo} · 射速 {next.fireRate:0.00}/秒" +
-                    (unlocked ? "" : $"\n通关 B{gate + 1} 后可购买");
-                nextWeaponPriceText.text = unlocked ? $"购买  {Number(next.cost)}" : "尚未解锁";
-                nextWeaponButton.interactable = unlocked && data.coins >= next.cost;
+                nextWeaponInfoText.text = $"下一把：W{nextWeapon + 1}  {next.name}\n火力 {Number(next.baseDamage)} · 弹量 {next.baseAmmo} · 射速 {next.fireRate:0.00}/秒";
+                nextWeaponPriceText.text = $"购买  {Number(next.cost)}";
+                nextWeaponButton.interactable = data.coins >= next.cost;
             }
 
             for (int i = 0; i < weaponButtons.Length; i++)

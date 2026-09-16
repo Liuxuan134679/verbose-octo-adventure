@@ -148,21 +148,32 @@ namespace BossClicker.Tests
             Assert.AreEqual(0, game.Data.ammoLevels[1]);
         }
 
-        [Test]
-        public void PowerAndAmmoShareTheTotalUpgradePriceLadder()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void PowerAndAmmoChargeTheirOwnLevels(bool powerFirst)
         {
             var game = new GameSession(balance);
             var weapon = balance.weapons[0];
-            game.Data.coins = weapon.upgradeCosts[0] + weapon.upgradeCosts[1];
+            game.Data.coins = weapon.upgradeCosts[0] * 2 + weapon.upgradeCosts[1];
+            System.Func<bool> first = powerFirst ? game.TryBuyPower : game.TryBuyAmmo;
+            System.Func<bool> other = powerFirst ? game.TryBuyAmmo : game.TryBuyPower;
 
-            Assert.AreEqual(weapon.upgradeCosts[0], game.NextUpgradeCost);
-            Assert.IsTrue(game.TryBuyPower());
-            Assert.AreEqual(weapon.upgradeCosts[1], game.NextUpgradeCost);
-            Assert.IsTrue(game.TryBuyAmmo());
+            Assert.IsTrue(first());
+            Assert.AreEqual(powerFirst ? weapon.upgradeCosts[1] : weapon.upgradeCosts[0],
+                game.NextPowerUpgradeCost);
+            Assert.AreEqual(powerFirst ? weapon.upgradeCosts[0] : weapon.upgradeCosts[1],
+                game.NextAmmoUpgradeCost);
+            Assert.IsTrue(first());
+            Assert.AreEqual(weapon.upgradeCosts[0], game.Data.coins);
+            Assert.IsTrue(other(), "The untouched attribute must still cost its first price.");
 
-            Assert.AreEqual(2, game.TotalUpgradeLevel);
-            Assert.AreEqual(weapon.baseAmmo + weapon.ammoPerLevel, game.CurrentAmmo);
+            Assert.AreEqual(3, game.TotalUpgradeLevel);
+            Assert.AreEqual(powerFirst ? 2 : 1, game.Data.powerLevels[0]);
+            Assert.AreEqual(powerFirst ? 1 : 2, game.Data.ammoLevels[0]);
             Assert.AreEqual(0, game.Data.coins);
+            Assert.IsFalse(first());
+            Assert.IsFalse(other());
+            Assert.AreEqual(3, game.TotalUpgradeLevel);
         }
 
         [Test]
@@ -170,32 +181,41 @@ namespace BossClicker.Tests
         {
             balance.maxAttributeLevel = 1;
             foreach (var weapon in balance.weapons)
-                weapon.upgradeCosts = new[] { weapon.upgradeCosts[0], weapon.upgradeCosts[1] };
+                weapon.upgradeCosts = new[] { weapon.upgradeCosts[0] };
             var game = new GameSession(balance);
             game.Data.coins = long.MaxValue;
 
             Assert.IsTrue(game.TryBuyPower());
             Assert.IsFalse(game.TryBuyPower());
+            Assert.AreEqual(0, game.NextPowerUpgradeCost);
+            Assert.AreEqual(balance.weapons[0].upgradeCosts[0], game.NextAmmoUpgradeCost);
             Assert.IsTrue(game.TryBuyAmmo());
             Assert.IsFalse(game.TryBuyAmmo());
+            Assert.AreEqual(0, game.NextAmmoUpgradeCost);
             Assert.AreEqual(2, game.TotalUpgradeLevel);
         }
 
         [Test]
-        public void InspectorBossesPerWeaponControlsNextWeaponGate()
+        public void NextWeaponRequiresOnlyItsPriceEvenBeforeTheFirstBoss()
         {
             balance.bossesPerWeapon = 2;
             System.Array.Resize(ref balance.bosses, balance.weapons.Length * balance.bossesPerWeapon);
             var data = new SaveData(balance.weapons.Length) {
-                coins = balance.weapons[1].cost,
-                highestClearedBossIndex = 0,
-                selectedBossIndex = 1
+                coins = balance.weapons[1].cost - 1
             };
             var game = new GameSession(balance, data);
 
             Assert.IsFalse(game.TryBuyNextWeapon());
-            game.Data.highestClearedBossIndex = 1;
+            Assert.AreEqual(balance.weapons[1].cost - 1, game.Data.coins);
+            game.Data.coins++;
             Assert.IsTrue(game.TryBuyNextWeapon());
+            Assert.AreEqual(0, game.Data.coins);
+            Assert.AreEqual(1, game.Data.currentWeaponIndex);
+            Assert.AreEqual(1, game.Data.highestOwnedWeaponIndex);
+            Assert.IsFalse(game.SelectWeapon(2), "Unpurchased weapons remain locked.");
+            Assert.AreEqual(-1, game.Data.highestClearedBossIndex);
+            Assert.AreEqual(0, game.Data.selectedBossIndex);
+            Assert.IsFalse(game.SelectBoss(1), "Buying a gun must not unlock a Boss.");
         }
 
         [Test]
@@ -228,22 +248,29 @@ namespace BossClicker.Tests
         }
 
         [Test]
-        public void WeaponEightUnlocksAfterBossTwentyOneAndBossTwentyFourIsTheFinalFrontier()
+        public void WeaponsArePurchasedInOrderWithoutAdvancingTheBossFrontier()
         {
-            var data = new SaveData(balance.weapons.Length) {
-                coins = balance.weapons[7].cost,
-                currentWeaponIndex = 6,
-                highestOwnedWeaponIndex = 6,
-                highestClearedBossIndex = 19,
-                selectedBossIndex = 20
-            };
-            var game = new GameSession(balance, data);
+            var game = new GameSession(balance);
+            game.Data.coins = 100000000;
 
-            Assert.IsFalse(game.TryBuyNextWeapon());
-            game.Data.highestClearedBossIndex = 20;
-            game.Data.selectedBossIndex = 21;
-            Assert.IsTrue(game.TryBuyNextWeapon());
+            for (int next = 1; next < balance.weapons.Length; next++)
+            {
+                Assert.IsTrue(game.SelectWeapon(0));
+                Assert.IsFalse(game.SelectWeapon(next));
+                long before = game.Data.coins;
+                Assert.IsTrue(game.TryBuyNextWeapon());
+                Assert.AreEqual(before - balance.weapons[next].cost, game.Data.coins);
+                Assert.AreEqual(next, game.Data.highestOwnedWeaponIndex);
+                Assert.AreEqual(next, game.Data.currentWeaponIndex);
+                Assert.AreEqual(-1, game.Data.highestClearedBossIndex);
+                Assert.AreEqual(0, game.Data.selectedBossIndex);
+                Assert.IsTrue(game.Data.IsValid(balance));
+            }
             Assert.AreEqual(7, game.Data.currentWeaponIndex);
+            long remaining = game.Data.coins;
+            Assert.IsFalse(game.TryBuyNextWeapon());
+            Assert.AreEqual(remaining, game.Data.coins);
+            Assert.IsFalse(game.SelectBoss(1));
             game.Data.highestClearedBossIndex = 22;
             game.Data.selectedBossIndex = 23;
             Assert.IsTrue(game.SelectBoss(23));

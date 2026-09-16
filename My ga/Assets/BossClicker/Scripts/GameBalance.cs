@@ -22,7 +22,8 @@ namespace BossClicker
             public double fireRate;
             [InspectorName("购买价格")]
             public long cost;
-            [InspectorName("共享强化价格（按总等级）")]
+            [InspectorName("强化价格（按单项等级）")]
+            [Tooltip("火力与弹量分别按自身等级读取此表，互不抬价；当前 8 级上限分别使用前 8 档。")]
             public long[] upgradeCosts;
 
             public Weapon(string name, double damage, int ammo, int ammoGain, double shotsPerSecond,
@@ -76,7 +77,7 @@ namespace BossClicker
         [Tooltip("Boss 列表数量必须等于武器数量 × 此数值。")]
         [Min(1)] public int bossesPerWeapon = 3;
         [InspectorName("火力/弹量单项等级上限")]
-        [Tooltip("每把武器的共享强化价格数量必须等于此数值 × 2。")]
+        [Tooltip("火力和弹量分别受此上限约束。每把武器的价格表至少包含此数量的档位。")]
         [Min(1)] public int maxAttributeLevel = 8;
         [InspectorName("Boss 外观数量")]
         [Min(1)] public int bossVisualVariantCount = 12;
@@ -158,7 +159,7 @@ namespace BossClicker
                 if (weapon == null || string.IsNullOrEmpty(weapon.name) || weapon.baseDamage <= 0 ||
                     weapon.baseAmmo <= 0 || weapon.ammoPerLevel <= 0 || weapon.fireRate <= 0 ||
                     weapon.cost < 0 || weapon.upgradeCosts == null ||
-                    weapon.upgradeCosts.Length != TotalUpgradeLevels ||
+                    weapon.upgradeCosts.Length < maxAttributeLevel ||
                     weapon.upgradeCosts.Any(x => x <= 0) ||
                     (i > 0 && (weapon.cost <= weapons[i - 1].cost ||
                         weapon.fireRate <= weapons[i - 1].fireRate)))

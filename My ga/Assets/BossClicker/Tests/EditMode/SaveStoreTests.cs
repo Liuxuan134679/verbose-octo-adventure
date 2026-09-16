@@ -27,8 +27,9 @@ namespace BossClicker.Tests
             UnityEngine.Object.DestroyImmediate(balance);
         }
 
-        [Test]
-        public void MissingSaveStartsFreshAndRoundTripKeepsV4Progress()
+        [TestCase(-1)]
+        [TestCase(4)]
+        public void MissingSaveStartsFreshAndRoundTripKeepsV4Progress(int clearedBoss)
         {
             var store = new SaveStore(path, balance);
             Assert.IsTrue(store.TryLoad(out var data, out _));
@@ -41,8 +42,8 @@ namespace BossClicker.Tests
             data.powerLevels[0] = 2;
             data.ammoLevels[1] = 3;
             data.goldLevel = 2;
-            data.highestClearedBossIndex = 4;
-            data.selectedBossIndex = 5;
+            data.highestClearedBossIndex = clearedBoss;
+            data.selectedBossIndex = clearedBoss + 1;
 
             Assert.IsTrue(store.TrySave(data, out _));
             Assert.IsTrue(store.TryLoad(out var loaded, out _));

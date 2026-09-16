@@ -87,14 +87,14 @@ namespace BossClicker
         public int TotalUpgradeLevel => Data.powerLevels[Data.currentWeaponIndex] +
             Data.ammoLevels[Data.currentWeaponIndex];
 
-        public long NextUpgradeCost
-        {
-            get
-            {
-                var costs = balance.weapons[Data.currentWeaponIndex].upgradeCosts;
-                return TotalUpgradeLevel < costs.Length ? costs[TotalUpgradeLevel] : 0;
-            }
-        }
+        public long NextPowerUpgradeCost =>
+            WeaponUpgradeCost(Data.powerLevels[Data.currentWeaponIndex]);
+
+        public long NextAmmoUpgradeCost =>
+            WeaponUpgradeCost(Data.ammoLevels[Data.currentWeaponIndex]);
+
+        long WeaponUpgradeCost(int level) => level < balance.maxAttributeLevel
+            ? balance.weapons[Data.currentWeaponIndex].upgradeCosts[level] : 0;
 
         public decimal GoldMultiplier => 1m + (decimal)balance.goldPerLevel * Data.goldLevel;
 
@@ -224,7 +224,6 @@ namespace BossClicker
             if (Phase != BattlePhase.Menu) return false;
             int next = Data.highestOwnedWeaponIndex + 1;
             if (next >= balance.weapons.Length ||
-                Data.highestClearedBossIndex < next * balance.bossesPerWeapon - 1 ||
                 Data.coins < balance.weapons[next].cost) return false;
             Data.coins -= balance.weapons[next].cost;
             Data.highestOwnedWeaponIndex = next;
@@ -246,13 +245,8 @@ namespace BossClicker
 
         bool BuyWeaponUpgrade(int weapon, ref int attributeLevel)
         {
-            if (attributeLevel >= balance.maxAttributeLevel) return false;
-            var costs = balance.weapons[weapon].upgradeCosts;
-            int total = Data.powerLevels[weapon] + Data.ammoLevels[weapon];
-            if (total >= costs.Length || Data.coins < costs[total]) return false;
-            Data.coins -= costs[total];
-            attributeLevel++;
-            return true;
+            return attributeLevel < balance.maxAttributeLevel &&
+                Buy(balance.weapons[weapon].upgradeCosts, ref attributeLevel);
         }
 
         bool Buy(long[] costs, ref int level)
