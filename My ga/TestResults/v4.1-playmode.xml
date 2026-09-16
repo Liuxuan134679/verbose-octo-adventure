@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-15 08:26:36Z" end-time="2026-09-15 08:26:36Z" duration="0.0233012">
+  <test-suite type="TestSuite" id="1000" name="LOOTSHOT Prototype" fullname="LOOTSHOT Prototype" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-15 08:26:36Z" end-time="2026-09-15 08:26:36Z" duration="0.023301" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1003" name="BossClicker.PlayModeTests.dll" fullname="C:/Users/root/AppData/Local/Temp/lootshot_v41_validation_20260915/Library/ScriptAssemblies/BossClicker.PlayModeTests.dll" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-15 08:26:36Z" end-time="2026-09-15 08:26:36Z" duration="0.019565" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="47380" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1004" name="BossClicker" fullname="BossClicker" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-15 08:26:36Z" end-time="2026-09-15 08:26:36Z" duration="0.019280" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1005" name="Tests" fullname="BossClicker.Tests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-15 08:26:36Z" end-time="2026-09-15 08:26:36Z" duration="0.019121" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="FireCadencePlayModeTests" fullname="BossClicker.Tests.FireCadencePlayModeTests" classname="BossClicker.Tests.FireCadencePlayModeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-15 08:26:36Z" end-time="2026-09-15 08:26:36Z" duration="0.018486" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1002" name="HoldCatchesUpAndReleaseStopsShotsInThePlayerLoop" fullname="BossClicker.Tests.FireCadencePlayModeTests.HoldCatchesUpAndReleaseStopsShotsInThePlayerLoop" methodname="HoldCatchesUpAndReleaseStopsShotsInThePlayerLoop" classname="BossClicker.Tests.FireCadencePlayModeTests" runstate="Runnable" seed="1130379119" result="Passed" start-time="2026-09-15 08:26:36Z" end-time="2026-09-15 08:26:36Z" duration="0.011416" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+              </properties>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

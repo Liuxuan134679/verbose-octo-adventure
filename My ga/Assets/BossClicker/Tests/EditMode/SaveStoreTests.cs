@@ -14,9 +14,9 @@ namespace BossClicker.Tests
         [SetUp]
         public void SetUp()
         {
-            folder = Path.Combine(Path.GetTempPath(), "BossClickerV3Tests-" + Guid.NewGuid());
+            folder = Path.Combine(Path.GetTempPath(), "BossClickerV4Tests-" + Guid.NewGuid());
             Directory.CreateDirectory(folder);
-            path = Path.Combine(folder, "lootshot-save-v3.json");
+            path = Path.Combine(folder, "lootshot-save-v4-test.json");
             balance = ScriptableObject.CreateInstance<GameBalance>();
         }
 
@@ -28,10 +28,13 @@ namespace BossClicker.Tests
         }
 
         [Test]
-        public void MissingSaveStartsFreshAndRoundTripKeepsV3Progress()
+        public void MissingSaveStartsFreshAndRoundTripKeepsV4Progress()
         {
             var store = new SaveStore(path, balance);
             Assert.IsTrue(store.TryLoad(out var data, out _));
+            Assert.AreEqual(4, data.schemaVersion);
+            Assert.AreEqual(8, data.powerLevels.Length);
+            Assert.AreEqual(8, data.ammoLevels.Length);
             data.coins = 4321;
             data.currentWeaponIndex = 1;
             data.highestOwnedWeaponIndex = 2;
@@ -49,22 +52,25 @@ namespace BossClicker.Tests
         }
 
         [Test]
-        public void V3SaveLeavesOlderSaveFilesUntouched()
+        public void V4SaveLeavesV1V2AndV3SaveFilesUntouched()
         {
             string v1 = Path.Combine(folder, "boss-clicker-save-v1.json");
             string v2 = Path.Combine(folder, "boss-forge-save-v2.json");
+            string v3 = Path.Combine(folder, "lootshot-save-v3.json");
             File.WriteAllText(v1, "legacy one");
             File.WriteAllText(v2, "legacy two");
+            File.WriteAllText(v3, "legacy three");
             var store = new SaveStore(path, balance);
 
             Assert.IsTrue(store.TrySave(new SaveData(balance.weapons.Length), out _));
 
             Assert.AreEqual("legacy one", File.ReadAllText(v1));
             Assert.AreEqual("legacy two", File.ReadAllText(v2));
+            Assert.AreEqual("legacy three", File.ReadAllText(v3));
         }
 
         [Test]
-        public void ResetReplacesAllV3Progress()
+        public void ResetReplacesAllV4ProgressAndCannotRecoverTheOldBackup()
         {
             var store = new SaveStore(path, balance);
             var data = new SaveData(balance.weapons.Length) {
@@ -81,6 +87,9 @@ namespace BossClicker.Tests
 
             Assert.IsTrue(store.TryReset(out var reset, out _));
 
+            File.WriteAllText(path, "{broken");
+            Assert.IsTrue(new SaveStore(path, balance).TryLoad(out var recovered, out _));
+
             Assert.AreEqual(0, reset.coins);
             Assert.AreEqual(0, reset.currentWeaponIndex);
             Assert.AreEqual(0, reset.highestOwnedWeaponIndex);
@@ -88,6 +97,8 @@ namespace BossClicker.Tests
             Assert.AreEqual(0, reset.selectedBossIndex);
             CollectionAssert.AreEqual(new int[balance.weapons.Length], reset.powerLevels);
             CollectionAssert.AreEqual(new int[balance.weapons.Length], reset.ammoLevels);
+            Assert.AreEqual(0, recovered.coins);
+            Assert.AreEqual(-1, recovered.highestClearedBossIndex);
         }
 
         [Test]

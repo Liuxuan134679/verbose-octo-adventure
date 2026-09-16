@@ -14,7 +14,7 @@ namespace BossClicker.Tests
         public void TearDown() => Object.DestroyImmediate(balance);
 
         [Test]
-        public void RapidClicksQueueIndependentProjectilesWithoutCooldown()
+        public void SessionQueuesEveryShotProducedByTheInputCadence()
         {
             var game = new GameSession(balance);
             game.StartBattle();
@@ -47,10 +47,13 @@ namespace BossClicker.Tests
         [Test]
         public void LastProjectileCanWinAfterMagazineIsEmpty()
         {
-            balance.bosses[0].health = 120;
+            int ammo = balance.weapons[0].baseAmmo;
+            balance.bosses[0].health = balance.weapons[0].baseDamage * ammo;
+            for (int i = 1; i < balance.bosses.Length; i++)
+                balance.bosses[i].health = balance.bosses[0].health + i * 100;
             var game = new GameSession(balance);
             game.StartBattle();
-            for (int i = 0; i < 12; i++) game.TryFire();
+            for (int i = 0; i < ammo; i++) game.TryFire();
 
             Assert.AreEqual(BattlePhase.Resolving, game.Phase);
             while (game.PendingShots > 0) game.ResolveNextShot();
@@ -78,4 +81,3 @@ namespace BossClicker.Tests
         }
     }
 }
-

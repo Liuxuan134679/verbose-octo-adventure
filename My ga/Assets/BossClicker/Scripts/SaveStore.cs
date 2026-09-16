@@ -12,8 +12,8 @@ namespace BossClicker
         bool recoveredBackup;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-        const string WebKey = "lootshot-save-v3";
-        const string WebBackupKey = "lootshot-save-v3-backup";
+        const string WebKey = "lootshot-save-v4-test";
+        const string WebBackupKey = "lootshot-save-v4-test-backup";
 #endif
 
         public SaveStore(string path, GameBalance balance)
@@ -87,9 +87,29 @@ namespace BossClicker
         public bool TryReset(out SaveData data, out string message)
         {
             data = new SaveData(balance.weapons.Length);
-            if (TrySave(data, out message)) return true;
-            data = null;
-            return false;
+            message = "";
+            try
+            {
+                string json = JsonUtility.ToJson(data, true);
+#if UNITY_WEBGL && !UNITY_EDITOR
+                PlayerPrefs.SetString(WebKey, json);
+                PlayerPrefs.SetString(WebBackupKey, json);
+                PlayerPrefs.Save();
+#else
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                File.WriteAllText(path, json, new UTF8Encoding(false));
+                File.WriteAllText(path + ".bak", json, new UTF8Encoding(false));
+#endif
+                recoveredBackup = false;
+                return true;
+            }
+            catch (Exception e) when (e is IOException || e is InvalidDataException ||
+                                       e is ArgumentException || e is UnauthorizedAccessException)
+            {
+                message = "无法重置进度，请重试：" + e.Message;
+                data = null;
+                return false;
+            }
         }
 
         bool Exists(string candidate)

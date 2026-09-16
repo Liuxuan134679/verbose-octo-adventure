@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BossClicker.Runtime", "Boss
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BossClicker.Tests", "BossClicker.Tests.csproj", "{A4D77D1C-C364-40A9-B29D-C94F62117A71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BossClicker.PlayModeTests", "BossClicker.PlayModeTests.csproj", "{58901F11-AEAC-9709-33FE-A3862026994B}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{2F183BA1-6CAC-65CD-94D8-05B3DA3204FB}"
 EndProject
 Global
@@ -21,6 +23,10 @@ Global
 		{A4D77D1C-C364-40A9-B29D-C94F62117A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D77D1C-C364-40A9-B29D-C94F62117A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D77D1C-C364-40A9-B29D-C94F62117A71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58901F11-AEAC-9709-33FE-A3862026994B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58901F11-AEAC-9709-33FE-A3862026994B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58901F11-AEAC-9709-33FE-A3862026994B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58901F11-AEAC-9709-33FE-A3862026994B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F183BA1-6CAC-65CD-94D8-05B3DA3204FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F183BA1-6CAC-65CD-94D8-05B3DA3204FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F183BA1-6CAC-65CD-94D8-05B3DA3204FB}.Release|Any CPU.ActiveCfg = Release|Any CPU

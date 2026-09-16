@@ -34,6 +34,8 @@ namespace BossClicker
         public Button bossPreviousButton, bossNextButton, fightButton, resetButton, saveReloadButton;
         public Button[] weaponButtons;
         public TMP_Text[] weaponButtonLabels;
+        public Button[] bossButtons;
+        public TMP_Text[] bossButtonLabels;
         public Image menuBossBody;
         public RectTransform menuGunBarrel, menuGunBody;
         public GameObject menuGunStock;
@@ -50,20 +52,29 @@ namespace BossClicker
         readonly List<CoinFx> coins = new List<CoinFx>();
         readonly Color[] bossColors = {
             new Color(.85f,.32f,.20f), new Color(.16f,.62f,.68f), new Color(.76f,.25f,.42f),
-            new Color(.91f,.53f,.16f), new Color(.26f,.55f,.79f), new Color(.46f,.30f,.68f)
+            new Color(.91f,.53f,.16f), new Color(.26f,.55f,.79f), new Color(.46f,.30f,.68f),
+            new Color(.72f,.48f,.17f), new Color(.22f,.68f,.46f), new Color(.62f,.25f,.70f),
+            new Color(.72f,.18f,.18f), new Color(.20f,.43f,.72f), new Color(.38f,.30f,.24f)
         };
+        static readonly float[] GunBarrelWidths = { 54, 72, 56, 76, 88, 104, 98, 118 };
+        static readonly float[] GunBarrelHeights = { 10, 17, 12, 14, 12, 22, 15, 17 };
+        static readonly float[] GunBodyWidths = { 76, 88, 96, 112, 128, 142, 150, 164 };
+        static readonly float[] GunBodyHeights = { 35, 39, 42, 45, 43, 50, 48, 52 };
         SaveStore store;
         Vector2 gunBase, bossBase;
         float recoil, flash, bossKick, hitFade, healthLag = 1, resetConfirmUntil;
 
         public GameSession Session { get; private set; }
 
+        public double CurrentFireInterval => Session == null || Session.CurrentFireRate <= 0
+            ? 1d : 1d / Session.CurrentFireRate;
+
         void Awake()
         {
             Application.runInBackground = true;
             Application.targetFrameRate = 60;
             store = new SaveStore(Path.Combine(Application.persistentDataPath,
-                "lootshot-save-v3.json"), balance);
+                "lootshot-save-v4-test.json"), balance);
             gunBase = gunRoot.anchoredPosition;
             bossBase = bossRoot.anchoredPosition;
 
@@ -82,6 +93,11 @@ namespace BossClicker
             {
                 int index = i;
                 weaponButtons[i].onClick.AddListener(() => Change(() => Session.SelectWeapon(index)));
+            }
+            for (int i = 0; i < bossButtons.Length; i++)
+            {
+                int index = i;
+                bossButtons[i].onClick.AddListener(() => SelectBossIndex(index));
             }
             Load();
         }
@@ -123,6 +139,15 @@ namespace BossClicker
             }
         }
 
+        void SelectBossIndex(int index)
+        {
+            if (Session != null && Session.SelectBoss(index))
+            {
+                Save();
+                RefreshMenu();
+            }
+        }
+
         void BeginBattle()
         {
             if (Session == null || !Session.StartBattle()) return;
@@ -137,13 +162,14 @@ namespace BossClicker
             RefreshBattle();
         }
 
-        public void Fire()
+        public bool Fire()
         {
-            if (Session == null || !Session.TryFire()) return;
+            if (Session == null || !Session.TryFire()) return false;
             recoil = 1;
             flash = 1;
             SpawnShot();
             RefreshBattle();
+            return true;
         }
 
         void ReturnToMenu()
@@ -170,6 +196,7 @@ namespace BossClicker
                 nextWeaponButton.interactable = bossPreviousButton.interactable =
                 bossNextButton.interactable = fightButton.interactable = ready;
             foreach (var button in weaponButtons) button.interactable = ready;
+            foreach (var button in bossButtons) button.interactable = ready;
             if (!ready) return;
 
             var data = Session.Data;
@@ -180,19 +207,22 @@ namespace BossClicker
             menuCoinsText.text = Number(data.coins);
             progressText.text = $"{data.highestClearedBossIndex + 1} / {balance.bosses.Length} 已通关";
             weaponNameText.text = $"W{weaponIndex + 1}  {weapon.name}";
-            weaponStatsText.text = $"单发火力  {Number(Session.CurrentDamage)}     弹量  {Session.CurrentAmmo}";
+            weaponStatsText.text = $"单发火力 {Number(Session.CurrentDamage)}  ·  弹量 {Session.CurrentAmmo}  ·  射速 {Session.CurrentFireRate:0.00}/秒\n" +
+                $"总强化 {Session.TotalUpgradeLevel}/{GameBalance.TotalUpgradeLevels}  ·  整匣伤害 {Number(Session.CurrentDamage * Session.CurrentAmmo)}";
 
-            bool powerMax = powerLevel >= weapon.powerCosts.Length;
-            powerInfoText.text = $"火力  Lv.{powerLevel}/{weapon.powerCosts.Length}\n{Number(Session.CurrentDamage)}" +
+            bool totalMax = Session.TotalUpgradeLevel >= weapon.upgradeCosts.Length;
+            long upgradeCost = Session.NextUpgradeCost;
+            bool powerMax = powerLevel >= GameBalance.MaxAttributeLevel;
+            powerInfoText.text = $"火力  Lv.{powerLevel}/{GameBalance.MaxAttributeLevel}\n{Number(Session.CurrentDamage)}" +
                 (powerMax ? "  已满级" : $"  →  {Number(DamageAt(weaponIndex, powerLevel + 1))}");
-            powerPriceText.text = powerMax ? "已满级" : $"升级  {Number(weapon.powerCosts[powerLevel])}";
-            powerButton.interactable = !powerMax && data.coins >= weapon.powerCosts[powerLevel];
+            powerPriceText.text = powerMax ? "火力已满" : totalMax ? "强化已满" : $"升级  {Number(upgradeCost)}";
+            powerButton.interactable = !powerMax && !totalMax && data.coins >= upgradeCost;
 
-            bool ammoMax = ammoLevel >= weapon.ammoCosts.Length;
-            ammoInfoText.text = $"弹量  Lv.{ammoLevel}/{weapon.ammoCosts.Length}\n{Session.CurrentAmmo}" +
-                (ammoMax ? "  已满级" : $"  →  {Session.CurrentAmmo + 1}");
-            ammoPriceText.text = ammoMax ? "已满级" : $"升级  {Number(weapon.ammoCosts[ammoLevel])}";
-            ammoButton.interactable = !ammoMax && data.coins >= weapon.ammoCosts[ammoLevel];
+            bool ammoMax = ammoLevel >= GameBalance.MaxAttributeLevel;
+            ammoInfoText.text = $"弹量  Lv.{ammoLevel}/{GameBalance.MaxAttributeLevel}\n{Session.CurrentAmmo}" +
+                (ammoMax ? "  已满级" : $"  →  {Session.CurrentAmmo + weapon.ammoPerLevel}");
+            ammoPriceText.text = ammoMax ? "弹量已满" : totalMax ? "强化已满" : $"升级  {Number(upgradeCost)}";
+            ammoButton.interactable = !ammoMax && !totalMax && data.coins >= upgradeCost;
 
             bool goldMax = data.goldLevel >= balance.goldCosts.Length;
             goldInfoText.text = $"金币加成  Lv.{data.goldLevel}/{balance.goldCosts.Length}\n×{Session.GoldMultiplier:0.00}" +
@@ -203,7 +233,7 @@ namespace BossClicker
             int selectedBoss = data.selectedBossIndex;
             var boss = balance.bosses[selectedBoss];
             bool firstClear = selectedBoss > data.highestClearedBossIndex;
-            bossNameText.text = $"BOSS {selectedBoss + 1:00}  {boss.name}";
+            bossNameText.text = $"BOSS {selectedBoss + 1:00}  {boss.name}  {(boss.enhanced ? "强化" : "普通")}";
             bossInfoText.text = $"生命  {Number(boss.health)}\n预计 {Session.EstimatedShots(selectedBoss)} 发 / 当前 {Session.CurrentAmmo} 发\n" +
                 $"普通金币  {Number(Session.ScaledHitReward(selectedBoss) + Session.ScaledKillReward(selectedBoss))}" +
                 (firstClear ? $"   首通 +{Number(boss.firstBonus)}" : "   已首通");
@@ -211,19 +241,27 @@ namespace BossClicker
             bossNextButton.interactable = selectedBoss < Math.Min(data.highestClearedBossIndex + 1,
                 balance.bosses.Length - 1);
 
+            int selectableBoss = Math.Min(data.highestClearedBossIndex + 1, balance.bosses.Length - 1);
+            for (int i = 0; i < bossButtons.Length; i++)
+            {
+                bool unlocked = i <= selectableBoss;
+                bossButtonLabels[i].text = unlocked ? (i == selectedBoss ? $"[{i + 1:00}]" : $"{i + 1:00}") : "锁";
+                bossButtons[i].interactable = unlocked && i != selectedBoss;
+            }
+
             int nextWeapon = data.highestOwnedWeaponIndex + 1;
             if (nextWeapon >= balance.weapons.Length)
             {
-                nextWeaponInfoText.text = "4 把原型武器已全部获得";
+                nextWeaponInfoText.text = $"{balance.weapons.Length} 把原型武器已全部获得";
                 nextWeaponPriceText.text = "已完成";
                 nextWeaponButton.interactable = false;
             }
             else
             {
                 var next = balance.weapons[nextWeapon];
-                int gate = nextWeapon * 3 - 1;
+                int gate = nextWeapon * GameBalance.BossesPerWeapon - 1;
                 bool unlocked = data.highestClearedBossIndex >= gate;
-                nextWeaponInfoText.text = $"下一把：W{nextWeapon + 1}  {next.name}\n基础火力 {Number(next.baseDamage)} · 弹量 {next.baseAmmo}" +
+                nextWeaponInfoText.text = $"下一把：W{nextWeapon + 1}  {next.name}\n火力 {Number(next.baseDamage)} · 弹量 {next.baseAmmo} · 射速 {next.fireRate:0.00}/秒" +
                     (unlocked ? "" : $"\n通关 B{gate + 1} 后可购买");
                 nextWeaponPriceText.text = unlocked ? $"购买  {Number(next.cost)}" : "尚未解锁";
                 nextWeaponButton.interactable = unlocked && data.coins >= next.cost;
@@ -232,10 +270,10 @@ namespace BossClicker
             for (int i = 0; i < weaponButtons.Length; i++)
             {
                 bool owned = i <= data.highestOwnedWeaponIndex;
-                weaponButtonLabels[i].text = owned ? $"W{i + 1}\n{balance.weapons[i].name}" : $"W{i + 1}\n未获得";
+                weaponButtonLabels[i].text = owned ? (i == weaponIndex ? $"W{i + 1}\n使用" : $"W{i + 1}") : $"W{i + 1}\n锁";
                 weaponButtons[i].interactable = owned && i != weaponIndex;
             }
-            menuBossBody.color = bossColors[selectedBoss % bossColors.Length];
+            ApplyBossVisual(menuBossBody, boss);
             RefreshGun(menuGunBarrel, menuGunBody, menuGunStock, weaponIndex);
         }
 
@@ -248,25 +286,66 @@ namespace BossClicker
             if (Session == null || Session.CurrentBossIndex < 0) return;
             var boss = balance.bosses[Session.CurrentBossIndex];
             float health = Mathf.Clamp01((float)(Session.Health / boss.health));
-            battleBossText.text = $"BOSS {Session.CurrentBossIndex + 1:00}  {boss.name}";
+            battleBossText.text = $"BOSS {Session.CurrentBossIndex + 1:00}  {boss.name}  {(boss.enhanced ? "强化" : "普通")}";
             battleHealthText.text = $"{Number(Session.Health)} / {Number(boss.health)}";
             battleAmmoText.text = $"弹药  {Session.AmmoRemaining} / {Session.BattleMaxAmmo}";
             battleCoinsText.text = Number(Session.Data.coins);
             healthFill.rectTransform.anchorMax = new Vector2(health, 1);
-            armor75.SetActive(health > .75f);
-            armor50.SetActive(health > .50f);
-            armor25.SetActive(health > .25f);
+            ApplyBossVisual(battleBossBody, boss);
+            armor75.SetActive(boss.enhanced && health > .75f);
+            armor50.SetActive(boss.enhanced && health > .50f);
+            armor25.SetActive(boss.enhanced && health > .25f);
             battleStatusText.text = Session.Phase == BattlePhase.Resolving ? "等待最后子弹命中……" :
-                Session.Phase == BattlePhase.Fighting ? "点击任意战斗区域射击" : "";
-            battleBossBody.color = bossColors[Session.CurrentBossIndex % bossColors.Length];
+                Session.Phase == BattlePhase.Fighting ? "按住鼠标持续射击 · 单击发射 1 发" : "";
             RefreshGun(battleGunBarrel, battleGunBody, battleGunStock, Session.Data.currentWeaponIndex);
         }
 
         void RefreshGun(RectTransform barrel, RectTransform body, GameObject stock, int index)
         {
-            barrel.sizeDelta = new Vector2(54 + index * 12, 10 + index * 2);
-            body.sizeDelta = new Vector2(76 + index * 10, 35 + index * 3);
+            barrel.sizeDelta = new Vector2(GunBarrelWidths[index], GunBarrelHeights[index]);
+            body.sizeDelta = new Vector2(GunBodyWidths[index], GunBodyHeights[index]);
             stock.SetActive(index >= 2);
+            Transform root = body.parent;
+            SetPart(root, "Magazine", index >= 2);
+            SetPart(root, "Foregrip", index >= 4);
+            SetPart(root, "Pump", index == 5);
+            SetPart(root, "TopRail", index >= 4 && index != 5);
+            var grip = root.Find("Grip") as RectTransform;
+            if (grip) grip.localRotation = Quaternion.Euler(0, 0, index >= 6 ? -18 : -12);
+            var muzzle = root.Find("Muzzle") as RectTransform;
+            if (muzzle) muzzle.anchoredPosition = new Vector2(138 + GunBarrelWidths[index], muzzle.anchoredPosition.y);
+            var origin = root.Find("ShotOrigin") as RectTransform;
+            if (origin) origin.anchoredPosition = new Vector2(146 + GunBarrelWidths[index], origin.anchoredPosition.y);
+        }
+
+        void ApplyBossVisual(Image body, GameBalance.Boss boss)
+        {
+            Transform root = body.transform.parent;
+            Color color = bossColors[boss.visualId % bossColors.Length];
+            body.color = boss.enhanced ? Color.Lerp(color, Color.black, .18f) : color;
+            body.rectTransform.sizeDelta = new Vector2(190 + boss.visualId % 4 * 10,
+                132 + boss.visualId % 3 * 7);
+            float previewScale = ((RectTransform)root).sizeDelta.x < 250 ? .52f : 1f;
+            root.localScale = Vector3.one * (previewScale * (.92f + boss.visualId % 3 * .04f) *
+                (boss.enhanced ? 1.06f : 1f));
+            var mohawk = root.Find("Mohawk") as RectTransform;
+            if (mohawk)
+            {
+                mohawk.sizeDelta = new Vector2(28 + boss.visualId % 4 * 8, 34 + boss.visualId % 5 * 5);
+                mohawk.localRotation = Quaternion.Euler(0, 0, (boss.visualId % 3 - 1) * 12);
+                mohawk.GetComponent<Image>().color = boss.enhanced ? new Color(1f, .72f, .12f) : color;
+            }
+            SetPart(root, "Helmet", boss.enhanced);
+            SetPart(root, "Ornament", boss.enhanced || boss.visualId % 2 == 1);
+            SetPart(root, "Armor75", boss.enhanced);
+            SetPart(root, "Armor50", boss.enhanced);
+            SetPart(root, "Armor25", boss.enhanced);
+        }
+
+        static void SetPart(Transform root, string name, bool active)
+        {
+            var part = root.Find(name);
+            if (part) part.gameObject.SetActive(active);
         }
 
         void SpawnShot()

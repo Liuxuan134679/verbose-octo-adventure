@@ -1,0 +1,9 @@
+{
+  "name": "BossClicker.PlayModeTests",
+  "references": [
+    "BossClicker.Runtime"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

@@ -7,7 +7,7 @@ namespace BossClicker
     [Serializable]
     public sealed class SaveData
     {
-        public int schemaVersion = 3;
+        public int schemaVersion = 4;
         public long coins;
         public int currentWeaponIndex;
         public int highestOwnedWeaponIndex;
@@ -25,7 +25,7 @@ namespace BossClicker
 
         public bool IsValid(GameBalance balance)
         {
-            if (balance == null || !balance.IsValid() || schemaVersion != 3 || coins < 0 ||
+            if (balance == null || !balance.IsValid() || schemaVersion != 4 || coins < 0 ||
                 currentWeaponIndex < 0 || highestOwnedWeaponIndex < 0 ||
                 highestOwnedWeaponIndex >= balance.weapons.Length ||
                 currentWeaponIndex > highestOwnedWeaponIndex || powerLevels == null ||
@@ -37,8 +37,9 @@ namespace BossClicker
                 return false;
 
             for (int i = 0; i < balance.weapons.Length; i++)
-                if (powerLevels[i] < 0 || powerLevels[i] > balance.weapons[i].powerCosts.Length ||
-                    ammoLevels[i] < 0 || ammoLevels[i] > balance.weapons[i].ammoCosts.Length)
+                if (powerLevels[i] < 0 || powerLevels[i] > GameBalance.MaxAttributeLevel ||
+                    ammoLevels[i] < 0 || ammoLevels[i] > GameBalance.MaxAttributeLevel ||
+                    powerLevels[i] + ammoLevels[i] > GameBalance.TotalUpgradeLevels)
                     return false;
             return true;
         }
@@ -78,7 +79,22 @@ namespace BossClicker
         }
 
         public int CurrentAmmo => balance.weapons[Data.currentWeaponIndex].baseAmmo +
+            balance.weapons[Data.currentWeaponIndex].ammoPerLevel *
             Data.ammoLevels[Data.currentWeaponIndex];
+
+        public double CurrentFireRate => balance.weapons[Data.currentWeaponIndex].fireRate;
+
+        public int TotalUpgradeLevel => Data.powerLevels[Data.currentWeaponIndex] +
+            Data.ammoLevels[Data.currentWeaponIndex];
+
+        public long NextUpgradeCost
+        {
+            get
+            {
+                var costs = balance.weapons[Data.currentWeaponIndex].upgradeCosts;
+                return TotalUpgradeLevel < costs.Length ? costs[TotalUpgradeLevel] : 0;
+            }
+        }
 
         public decimal GoldMultiplier => 1m + (decimal)balance.goldPerLevel * Data.goldLevel;
 
@@ -187,14 +203,14 @@ namespace BossClicker
         {
             if (Phase != BattlePhase.Menu) return false;
             int weapon = Data.currentWeaponIndex;
-            return Buy(balance.weapons[weapon].powerCosts, ref Data.powerLevels[weapon]);
+            return BuyWeaponUpgrade(weapon, ref Data.powerLevels[weapon]);
         }
 
         public bool TryBuyAmmo()
         {
             if (Phase != BattlePhase.Menu) return false;
             int weapon = Data.currentWeaponIndex;
-            return Buy(balance.weapons[weapon].ammoCosts, ref Data.ammoLevels[weapon]);
+            return BuyWeaponUpgrade(weapon, ref Data.ammoLevels[weapon]);
         }
 
         public bool TryBuyGold()
@@ -207,7 +223,8 @@ namespace BossClicker
         {
             if (Phase != BattlePhase.Menu) return false;
             int next = Data.highestOwnedWeaponIndex + 1;
-            if (next >= balance.weapons.Length || Data.highestClearedBossIndex < next * 3 - 1 ||
+            if (next >= balance.weapons.Length ||
+                Data.highestClearedBossIndex < next * GameBalance.BossesPerWeapon - 1 ||
                 Data.coins < balance.weapons[next].cost) return false;
             Data.coins -= balance.weapons[next].cost;
             Data.highestOwnedWeaponIndex = next;
@@ -226,6 +243,17 @@ namespace BossClicker
 
         bool IsBossSelectable(int index) => index >= 0 && index < balance.bosses.Length &&
             index <= Math.Min(Data.highestClearedBossIndex + 1, balance.bosses.Length - 1);
+
+        bool BuyWeaponUpgrade(int weapon, ref int attributeLevel)
+        {
+            if (attributeLevel >= GameBalance.MaxAttributeLevel) return false;
+            var costs = balance.weapons[weapon].upgradeCosts;
+            int total = Data.powerLevels[weapon] + Data.ammoLevels[weapon];
+            if (total >= costs.Length || Data.coins < costs[total]) return false;
+            Data.coins -= costs[total];
+            attributeLevel++;
+            return true;
+        }
 
         bool Buy(long[] costs, ref int level)
         {

@@ -46,19 +46,22 @@ namespace BossClicker.Tests
         [Test]
         public void EmptyMagazineWaitsThenLosesAndKeepsCoinsAndTarget()
         {
-            balance.bosses[0].health = 130;
+            int ammo = balance.weapons[0].baseAmmo;
+            balance.bosses[0].health = balance.weapons[0].baseDamage * ammo + 10;
+            for (int i = 1; i < balance.bosses.Length; i++)
+                balance.bosses[i].health = balance.bosses[0].health + i * 100;
             balance.bosses[0].hitReward = 70;
             var game = new GameSession(balance);
 
             Assert.IsTrue(game.StartBattle());
-            for (int i = 0; i < 12; i++) Assert.IsTrue(game.TryFire());
+            for (int i = 0; i < ammo; i++) Assert.IsTrue(game.TryFire());
             Assert.AreEqual(BattlePhase.Resolving, game.Phase);
-            Assert.AreEqual(12, game.PendingShots);
+            Assert.AreEqual(ammo, game.PendingShots);
 
             while (game.PendingShots > 0) Assert.IsTrue(game.ResolveNextShot());
 
             Assert.AreEqual(BattlePhase.Lost, game.Phase);
-            Assert.AreEqual(64, game.Data.coins);
+            Assert.AreEqual(66, game.Data.coins);
             Assert.AreEqual(-1, game.Data.highestClearedBossIndex);
             Assert.AreEqual(0, game.Data.selectedBossIndex);
             Assert.IsFalse(game.StartBattle(), "A result cannot directly restart combat.");
@@ -146,6 +149,23 @@ namespace BossClicker.Tests
         }
 
         [Test]
+        public void PowerAndAmmoShareTheTotalUpgradePriceLadder()
+        {
+            var game = new GameSession(balance);
+            var weapon = balance.weapons[0];
+            game.Data.coins = weapon.upgradeCosts[0] + weapon.upgradeCosts[1];
+
+            Assert.AreEqual(weapon.upgradeCosts[0], game.NextUpgradeCost);
+            Assert.IsTrue(game.TryBuyPower());
+            Assert.AreEqual(weapon.upgradeCosts[1], game.NextUpgradeCost);
+            Assert.IsTrue(game.TryBuyAmmo());
+
+            Assert.AreEqual(2, game.TotalUpgradeLevel);
+            Assert.AreEqual(weapon.baseAmmo + weapon.ammoPerLevel, game.CurrentAmmo);
+            Assert.AreEqual(0, game.Data.coins);
+        }
+
+        [Test]
         public void GoldUpgradeIsLinearAndFirstClearBonusStaysFixed()
         {
             balance.bosses[0].health = 10;
@@ -165,6 +185,28 @@ namespace BossClicker.Tests
             Assert.AreEqual(103, game.LastKillReward);
             Assert.AreEqual(30, game.LastFirstBonus);
         }
+
+        [Test]
+        public void WeaponEightUnlocksAfterBossTwentyOneAndBossTwentyFourIsTheFinalFrontier()
+        {
+            var data = new SaveData(balance.weapons.Length) {
+                coins = balance.weapons[7].cost,
+                currentWeaponIndex = 6,
+                highestOwnedWeaponIndex = 6,
+                highestClearedBossIndex = 19,
+                selectedBossIndex = 20
+            };
+            var game = new GameSession(balance, data);
+
+            Assert.IsFalse(game.TryBuyNextWeapon());
+            game.Data.highestClearedBossIndex = 20;
+            game.Data.selectedBossIndex = 21;
+            Assert.IsTrue(game.TryBuyNextWeapon());
+            Assert.AreEqual(7, game.Data.currentWeaponIndex);
+            game.Data.highestClearedBossIndex = 22;
+            game.Data.selectedBossIndex = 23;
+            Assert.IsTrue(game.SelectBoss(23));
+            Assert.IsFalse(game.SelectBoss(24));
+        }
     }
 }
-

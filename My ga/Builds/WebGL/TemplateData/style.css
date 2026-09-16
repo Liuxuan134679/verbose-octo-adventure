@@ -14,3 +14,8 @@ body { padding: 0; margin: 0 }
 #unity-build-title { float: right; margin-right: 10px; line-height: 38px; font-family: arial; font-size: 18px }
 #unity-fullscreen-button { cursor:pointer; float: right; width: 38px; height: 38px; background: url('fullscreen-button.png') no-repeat center }
 #unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
+
+html, body { width: 100%; height: 100%; overflow: hidden; background: #231f20 }
+#unity-container.unity-desktop { left: 0; top: 0; width: 100%; height: 100%; transform: none }
+#unity-canvas { width: 100% !important; height: 100% !important; display: block }
+#unity-footer { display: none }

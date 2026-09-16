@@ -1,6 +1,6 @@
 # LOOTSHOT v4：8 枪 24 关数值测试原型制作方案
 
-> 状态：待用户确认后实施  
+> 状态：首轮原型已完成；输入与数值规则由 [v4.1 方案](v4.1-hold-fire-balance-plan.md) 修订
 > 日期：2026-09-15  
 > 工程：`C:\Users\root\Documents\GitHub\verbose-octo-adventure\My ga`  
 > 引擎：Unity `2022.3.51f1c1`  

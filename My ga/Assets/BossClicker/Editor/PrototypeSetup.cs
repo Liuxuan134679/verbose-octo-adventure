@@ -27,8 +27,8 @@ namespace BossClicker.Editor
         static Color Red => new Color(.88f, .20f, .16f);
         static Color Muted => new Color(.28f, .31f, .34f);
 
-        [MenuItem("Boss Clicker/Apply V3 Balance")]
-        public static void ApplyV3Balance()
+        [MenuItem("Boss Clicker/Apply V4.1 Balance")]
+        public static void ApplyV41Balance()
         {
             var defaults = ScriptableObject.CreateInstance<GameBalance>();
             var existing = AssetDatabase.LoadAssetAtPath<GameBalance>(Root + "/Data/PrototypeBalance.asset");
@@ -46,10 +46,10 @@ namespace BossClicker.Editor
             AssetDatabase.SaveAssets();
         }
 
-        [MenuItem("Boss Clicker/Create V3 WebGL Prototype")]
-        public static void CreateV3Prototype()
+        [MenuItem("Boss Clicker/Create V4.1 WebGL Prototype")]
+        public static void CreateV41Prototype()
         {
-            ApplyV3Balance();
+            ApplyV41Balance();
             AssetDatabase.DeleteAsset(Root + "/Art/PrototypeChinese.asset");
             CreateScene();
         }
@@ -111,7 +111,7 @@ namespace BossClicker.Editor
             EditorSceneManager.SaveScene(scene);
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
             AssetDatabase.SaveAssets();
-            Debug.Log("LOOTSHOT_V3_SETUP_COMPLETE");
+            Debug.Log("LOOTSHOT_V41_SETUP_COMPLETE");
         }
 
         static void BuildMenu(RectTransform root, GameView view, GameBalance balance)
@@ -124,7 +124,7 @@ namespace BossClicker.Editor
 
             var title = Card(screen, "TitleCard", 20, 16, 370, 72, Paper);
             Label(title, "Title", "LOOTSHOT", 18, 4, 334, 52, 39, Ink, TextAlignmentOptions.Center);
-            Label(title, "Sub", "点击 · 破坏 · 变强", 20, 48, 330, 18, 12, Muted,
+            Label(title, "Sub", "按住 · 破坏 · 变强", 20, 48, 330, 18, 12, Muted,
                 TextAlignmentOptions.Center);
             var coins = Card(screen, "Coins", 1010, 18, 250, 62, Ink);
             Label(coins, "Icon", "●", 15, 9, 42, 42, 31, Gold, TextAlignmentOptions.Center);
@@ -145,8 +145,8 @@ namespace BossClicker.Editor
             var gun = NewRect(weapon, "MenuGun", 135, 67, 250, 104);
             BuildGun(gun, out view.menuGunBarrel, out view.menuGunBody,
                 out view.menuGunStock, out _, out _);
-            view.weaponStatsText = Label(weapon, "Stats", "单发火力 10     弹量 12", 20, 169,
-                480, 35, 20, Muted, TextAlignmentOptions.Center);
+            view.weaponStatsText = Label(weapon, "Stats", "单发火力 10 · 弹量 18 · 射速 1.00/秒\n总强化 0/16", 20, 158,
+                480, 50, 17, Muted, TextAlignmentOptions.Center);
 
             var power = Card(weapon, "Power", 16, 215, 236, 166, new Color(.91f, .86f, .74f));
             view.powerInfoText = Label(power, "Info", "火力", 12, 10, 204, 86, 18, Ink,
@@ -172,6 +172,17 @@ namespace BossClicker.Editor
                 out _, Teal, 25);
             view.bossNextButton = Button(boss, "Next", ">", 302, 174, 58, 54,
                 out _, Teal, 25);
+            var bossSelect = Card(boss, "BossSelect", 8, 325, 356, 72, Ink);
+            view.bossButtons = new Button[balance.bosses.Length];
+            view.bossButtonLabels = new TMP_Text[balance.bosses.Length];
+            for (int i = 0; i < balance.bosses.Length; i++)
+            {
+                int column = i / GameBalance.BossesPerWeapon;
+                int row = i % GameBalance.BossesPerWeapon;
+                view.bossButtons[i] = Button(bossSelect, "Boss" + (i + 1), (i + 1).ToString("00"),
+                    3 + column * 43, 3 + row * 21, 40, 19,
+                    out view.bossButtonLabels[i], Paper, 9);
+            }
 
             var gold = Card(screen, "GoldBonus", 340, 527, 520, 82, Paper);
             view.goldInfoText = Label(gold, "Info", "金币加成", 18, 8, 310, 58, 17, Ink,
@@ -182,10 +193,10 @@ namespace BossClicker.Editor
             var weapons = Card(screen, "WeaponSelect", 340, 624, 520, 76, Ink);
             view.weaponButtons = new Button[balance.weapons.Length];
             view.weaponButtonLabels = new TMP_Text[balance.weapons.Length];
-            float buttonWidth = 119;
+            float buttonWidth = 58;
             for (int i = 0; i < balance.weapons.Length; i++)
                 view.weaponButtons[i] = Button(weapons, "Weapon" + (i + 1), "W" + (i + 1),
-                    10 + i * 126, 10, buttonWidth, 48, out view.weaponButtonLabels[i], Paper, 13);
+                    8 + i * 62, 10, buttonWidth, 48, out view.weaponButtonLabels[i], Paper, 12);
 
             view.fightButton = Button(screen, "Fight", "开始战斗", 880, 530, 380, 88,
                 out _, Orange, 30);
@@ -195,7 +206,7 @@ namespace BossClicker.Editor
             view.nextWeaponButton = Button(next, "Buy", "购买", 190, 18, 96, 50,
                 out view.nextWeaponPriceText, Gold, 13);
 
-            view.progressText = Label(screen, "Progress", "0 / 12 已通关", 880, 630, 170, 24,
+            view.progressText = Label(screen, "Progress", "0 / 24 已通关", 880, 630, 170, 24,
                 14, Color.white);
             view.saveText = Label(screen, "Save", "进度自动保存", 880, 661, 170, 22,
                 12, Color.white);
@@ -255,13 +266,13 @@ namespace BossClicker.Editor
             var ammo = Card(screen, "Ammo", 20, 100, 190, 90, Paper);
             Label(ammo, "Bullets", "● ● ●", 10, 8, 170, 27, 18, Gold,
                 TextAlignmentOptions.Center);
-            view.battleAmmoText = Label(ammo, "Value", "弹药 12 / 12", 8, 39, 174, 35,
+            view.battleAmmoText = Label(ammo, "Value", "弹药 18 / 18", 8, 39, 174, 35,
                 17, Ink, TextAlignmentOptions.Center);
 
             view.hitText = Label(screen, "Hit", "", 720, 250, 260, 50, 28, Gold,
                 TextAlignmentOptions.Center);
-            view.battleStatusText = Label(screen, "Status", "点击任意战斗区域射击", 390, 642,
-                500, 42, 21, Color.white, TextAlignmentOptions.Center);
+            view.battleStatusText = Label(screen, "Status", "按住鼠标持续射击 · 单击发射 1 发", 350, 642,
+                580, 42, 19, Color.white, TextAlignmentOptions.Center);
 
             var result = Card(screen, "Result", 390, 190, 500, 330, Paper);
             view.resultPanel = result.parent.gameObject;
@@ -316,6 +327,10 @@ namespace BossClicker.Editor
             stock = Box(root, "Stock", 25, 36, 54, 31, Ink).gameObject;
             body = Box(root, "Body", 63, 20, 76, 35, new Color(.18f, .23f, .27f)).rectTransform;
             Box(root, "Grip", 91, 49, 23, 42, Ink).rectTransform.localRotation = Quaternion.Euler(0, 0, -12);
+            Box(root, "Magazine", 112, 48, 21, 40, new Color(.10f, .12f, .14f));
+            Box(root, "Foregrip", 150, 43, 18, 32, Ink);
+            Box(root, "Pump", 132, 17, 58, 29, new Color(.30f, .32f, .30f));
+            Box(root, "TopRail", 78, 11, 82, 7, Ink);
             barrel = Box(root, "Barrel", 132, 28, 54, 10, Ink).rectTransform;
             Box(root, "Accent", 73, 25, 38, 8, Orange);
             muzzle = Box(root, "Muzzle", 202, 18, 28, 30, Color.clear);
@@ -335,6 +350,9 @@ namespace BossClicker.Editor
             Box(root, "Face", 100, 22, 110, 87, new Color(.88f, .57f, .39f));
             Box(root, "Mohawk", 138, 0, 38, 45, Red);
             Box(root, "Eyes", 126, 55, 64, 9, Ink).rectTransform.localRotation = Quaternion.Euler(0, 0, -5);
+            Box(root, "Helmet", 86, 8, 138, 38, new Color(.16f, .18f, .20f));
+            Box(root, "Ornament", 225, 38, 34, 74, Gold).rectTransform.localRotation =
+                Quaternion.Euler(0, 0, 18);
             armor75 = Box(root, "Armor75", 16, 90, 74, 72, new Color(.12f, .13f, .15f)).gameObject;
             armor50 = Box(root, "Armor50", 218, 89, 74, 72, new Color(.12f, .13f, .15f)).gameObject;
             armor25 = Box(root, "Armor25", 102, 106, 102, 58, new Color(.18f, .20f, .22f)).gameObject;
@@ -497,7 +515,27 @@ namespace BossClicker.Editor
             });
             if (report.summary.result != BuildResult.Succeeded)
                 throw new InvalidOperationException("WebGL build failed: " + report.summary.result);
+            MakeWebGLResponsive(output);
             Debug.Log("LOOTSHOT_WEBGL_BUILD_COMPLETE " + output);
+        }
+
+        static void MakeWebGLResponsive(string output)
+        {
+            string indexPath = Path.Combine(output, "index.html");
+            string html = File.ReadAllText(indexPath);
+            html = html.Replace("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">",
+                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1\">");
+            html = html.Replace("// config.autoSyncPersistentDataPath = true;",
+                "config.autoSyncPersistentDataPath = true;");
+            File.WriteAllText(indexPath, html);
+
+            string stylePath = Path.Combine(output, "TemplateData", "style.css");
+            File.AppendAllText(stylePath,
+                "\nhtml, body { width: 100%; height: 100%; overflow: hidden; background: #231f20 }\n" +
+                "#unity-container.unity-desktop { left: 0; top: 0; width: 100%; height: 100%; transform: none }\n" +
+                "#unity-canvas { width: 100% !important; height: 100% !important; display: block }\n" +
+                "#unity-footer { display: none }\n");
         }
     }
 }
